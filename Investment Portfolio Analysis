@@ -1,0 +1,132 @@
+
+library(magrittr)
+library(PortfolioAnalytics)
+library(quantmod)
+library(ggplot2)
+library(fPortfolio)
+library(ROI)
+require(ROI.plugin.glpk)
+require(ROI.plugin.quadprog)
+library(plotly)
+
+time <- readline(prompt = "Input Time Series Data (in days previous current date): ")
+mininvest <- readline(prompt = "Input minimum investment requirement: ")
+maxinvest <- readline(prompt = "Input maximum investment requirement: ")
+symbols <- readline(prompt = "Enter Ticker Symbols Desired, Comma Separated w/ Quotation Marks: ")
+
+time <- as.numeric(time)
+time <- Sys.Date() - time
+mininvest <- as.numeric(mininvest)
+maxinvest <- as.numeric(maxinvest)
+symbols <- strsplit(symbols, " ")[[1]]
+
+Stocks <- lapply(symbols, function(symbols) {
+  getSymbols(symbols, from=time, auto.assign=FALSE)
+})
+
+stocks <- do.call(cbind, Stocks)
+stocksadj <- stocks[,seq(6, ncol(stocks), 6)]
+
+returnsdata <- CalculateReturns(stocksadj)
+returnsdata <- na.omit(returnsdata)
+colnames(returnsdata) <- symbols
+covMat <- cov(returnsdata)
+meanreturns <- colMeans(returnsdata)
+
+port <- portfolio.spec(assets = symbols)
+
+port <- add.constraint(port, type = "box", min = mininvest, max = maxinvest)
+port <- add.constraint(portfolio = port, type = "full_investment")
+
+rportfolios <- random_portfolios(port, permutations = 500000, rp_method = "sample")
+
+minvarport <- add.objective(port, type = "risk", name = "var")
+minvaropt <- optimize.portfolio(returnsdata, minvarport, optimize_method = "random", rp = rportfolios)
+
+maxretport <- add.objective(port, type = "return", name = "mean")
+maxretopt <- optimize.portfolio(returnsdata, maxretport, optimize_method = "random", rp = rportfolios)
+####Gen Tangency Malleable DATA####
+#Create Vector of Tickers
+tickers <- symbols
+
+#Calculate Returns: Daily
+portfolioPrices <- NULL
+for (Ticker in tickers)
+  portfolioPrices <- cbind(portfolioPrices,
+                           getSymbols(Ticker, from=time, auto.assign=FALSE)[,4])
+
+#Delete all dates with no prices
+portfolioPrices <- portfolioPrices[apply(portfolioPrices,1,function(x) all(!is.na(x))),]
+#Rename Columns
+colnames(portfolioPrices) <- tickers
+
+#Calculate Returns: Daily RoC
+portfolioReturns <- na.omit(ROC(portfolioPrices, type="discrete"))
+portfolioReturns <- as.timeSeries(portfolioReturns)
+
+#Calculate Monthly or Weekly Returns
+Stock_Data <- tickers %>% lapply(function(x) getSymbols(x, from=time, auto.assign=FALSE)[,4]) %>%
+  lapply(function(x) monthlyReturn(x))
+
+portfolioReturns <- do.call(merge, Stock_Data)
+# keep only the dates that have closing prices for all tickers
+portfolioReturns <- portfolioReturns[apply(portfolioReturns,1,function(x) all(!is.na(x))),]
+colnames(portfolioReturns) <- tickers
+portfolioReturns <- as.timeSeries(portfolioReturns)
+####done####
+tangencyPort <- tangencyPortfolio(portfolioReturns, spec=portfolioSpec(), constraints="LongOnly")
+tanportwgt <- getWeights(tangencyPort)
+tangencyPort
+minvaropt
+maxretopt
+
+
+cov_matrix <- cov(portfolioReturns)
+write.csv(cov_matrix, "covmatrix.csv")
+##Plotting Optimal Portfolio Weights
+pdf("Portfolio Weights finaltest")
+
+df <- data.frame(minvaropt$weights)
+assets <- colnames(returnsdata)
+ggplot(data=df, aes(x=assets, y=minvaropt$weights, fill=assets)) +
+  geom_bar(stat="identity", position=position_dodge(),colour="black") +
+  geom_text(aes(label=sprintf("%.02f %%",minvaropt$weights*100)),
+            position=position_dodge(width=0.9), vjust=-0.25, check_overlap = TRUE) +
+  ggtitle("Minimum Variance Portfolio Optimal Weights")+ theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x= "Assets", y = "Weight (%)")
+
+dfmax <- data.frame(maxretopt$weights)
+assets <- colnames(returnsdata)
+ggplot(data=dfmax, aes(x=assets, y=maxretopt$weights, fill=assets)) +
+  geom_bar(stat="identity", position=position_dodge(),colour="black") +
+  geom_text(aes(label=sprintf("%.02f %%",maxretopt$weights*100)),
+            position=position_dodge(width=0.9), vjust=-0.25, check_overlap = TRUE) +
+  ggtitle("Maximum Return Portfolio Optimal Weights")+ theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x= "Assets", y = "Weight (%)")
+
+dftan <- data.frame(tanportwgt)
+assets <- colnames(returnsdata)
+ggplot(data=dftan, aes(x=assets, y=tanportwgt, fill=assets)) +
+  geom_bar(stat="identity", position=position_dodge(),colour="black") +
+  geom_text(aes(label=sprintf("%.02f %%",tanportwgt*100)),
+            position=position_dodge(width=0.9), vjust=-0.25, check_overlap = TRUE) +
+  ggtitle("Tangency Portfolio Optimal Weights")+ theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x= "Assets", y = "Weight (%)")
+
+
+riskFreeRate <- 0
+plot((annualizedPoints[,"targetReturn"]-riskFreeRate) / annualizedPoints[,"targetRisk"], xlab="point on efficient frontier", ylab="Sharpe ratio")
+
+
+effFrontier <- portfolioFrontier(portfolioReturns, constraints = "LongOnly")
+plot(effFrontier,c(1,2,3,4))
+
+riskReturnPoints <- frontierPoints(effFrontier)
+annualizedPoints <- data.frame(targetRisk=riskReturnPoints[, "targetRisk"] * sqrt(252),
+                               targetReturn=riskReturnPoints[,"targetReturn"] * 252)
+
+dev.off()
+
+
+
+
