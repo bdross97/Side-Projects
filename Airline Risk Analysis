@@ -1,0 +1,101 @@
+
+library(magrittr)
+library(dplyr)
+library(maps)
+library(mapdata)
+library(ggplot2)
+library(ggrepel)
+
+##load delay cause data##
+causes <- read.csv("Delay Causes.csv")
+##load airport location data (for mapping)##
+airports <- read.csv("Airports.csv")
+airports <- airports[,c("Airport.Code", "Latitude", "Longitude", "City", "State.Province")]
+usairports <- airports[(airports$State.Province == "United States"),]
+####done####
+
+####merging necessities####
+##rename appropriate columns for merging##
+colnames(causes)[5] <- "Origin"
+colnames(airports)[1] <- "Origin"
+####done merging####
+
+####big dplyr grouping####
+
+sumframe <- causes %>%
+  group_by(carrier_name, carrier, Origin, month) %>%
+  summarise(totaldelaytime = sum(arr_delay),
+            total_delays = sum(arr_del15),
+            averagedelaytime = totaldelaytime/total_delays,
+            delayratio = (total_delays/(sum(arr_flights))),
+            cancelratio = sum(arr_cancelled)/sum(arr_flights),
+            carrierdelaytime = sum(carrier_delay)/sum(carrier_ct),
+            weatherdelaytime = sum(weather_delay)/sum(weather_ct),
+            nasdelayavtime = sum(nas_delay)/sum(nas_ct),
+            latedelaytime = sum(late_aircraft_delay)/sum(late_aircraft_ct))
+
+weatherdelays <- causes %>%
+  group_by(month, Origin) %>%
+  summarise(weatherdelay = sum(weather_delay)/sum(weather_ct),
+            totaldelays = sum(weather_ct))
+
+
+##merging after grouping for location of airport##
+airlines <- merge(sumframe, airports, by = "Origin")
+weatherair <- merge(weatherdelays, airports, by = "Origin")
+####done grouping####
+
+##unique name generation to be used in for looping##
+airportlist <- unique(weatherair$month)
+##generate unique list name for airlines##
+air_list <- unique(airlines$carrier_name)
+##loading map data##
+world <- map_data('world')
+map <- ggplot()+geom_polygon(data=world,aes(x=long,y=lat, group = group),fill= NA,
+                      color="black")
+worldairmap <- map + geom_point(data = airports, aes(x=Longitude, y = Latitude))
+##generating airport locations by USA only##
+usa <- map_data('state')
+usairmap <- ggplot() + geom_polygon(data = usa, aes(x=long,y=lat, group = group), fill = NA,
+                             color = "black")
+usairmap <- usairmap + geom_point(data = usairports, aes(x=Longitude, y=Latitude))
+
+####for loop fun####
+for (i in 1:length(airportlist)) {
+  name <- paste0("Month: ", airportlist[i], sep = " ")
+  temp <- weatherair[weatherair$month == airportlist[i],]
+  maps <- map + geom_point(data = temp, aes(x= temp$Longitude, y = temp$Latitude),
+                           size = temp$totaldelays/500, color = as.numeric(airportlist[i]))+
+    geom_label_repel(data = temp, aes(x = temp$Longitude, y = temp$Latitude, label = paste("(",City,",",Origin,",",round(weatherdelay,2),")")),
+                     label.size = NA,
+                     alpha = .75,
+                     fontface = 'bold', color = 'black',
+                     box.padding = .8,point.padding = .5,
+                     na.rm=TRUE) + ggtitle(name, subtitle = "by = (Airport, City, Average Weather Delay")
+  
+  pdf(paste0(name, ".pdf"))
+  print(maps)
+  dev.off()
+}
+##total delay pdfs##
+for (i in 1:length(air_list)) {
+  ##preparing name of output object##
+  name <- paste0("Airline:", air_list[i], sep = " ")
+  ##pulling data for specific airline##
+  temp <- airlines[airlines$carrier_name == air_list[i],]
+  temp <- temp[!is.na(temp),]
+  ##mapping##
+  maps <-  map + 
+    geom_point(data = temp, aes(x = temp$Longitude, y = temp$Latitude), 
+               size = temp$averagedelaytime/25, color = as.numeric(air_list[i])) +
+    geom_label_repel(data = temp, aes(x = temp$Longitude, y = temp$Latitude, label = paste("(",City,",",round(averagedelaytime,2),")")),
+                     label.size = NA, 
+                     alpha = 0.75, 
+                     fontface = 'bold', color = 'black',
+                     box.padding = 0.80, point.padding = 0.5,
+                     na.rm=TRUE) + ggtitle(name, subtitle = "by = (Airport, Avg. Delay Time)") + labs(caption = "Point size increases w/ delay time")
+  pdf(paste0(name, ".pdf"))
+  print(maps)
+  dev.off()
+}
+####done with for looping####
