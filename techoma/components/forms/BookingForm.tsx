@@ -34,7 +34,8 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const nextErrors: FieldErrors = {};
     const name = String(formData.get("name") ?? "").trim();
@@ -59,7 +60,7 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
       });
       if (response.ok) {
         setState("success");
-        event.currentTarget.reset();
+        form.reset();
       } else {
         setState("error");
       }
