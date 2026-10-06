@@ -88,7 +88,7 @@ export const site = {
     { label: "Setup Time", value: "SPEC_VALUE_HERE" },
     {
       label: "Footprint",
-      value: "~22 ft deployed (6-ft bed Tacoma + tailgate down + 18\" sub at the grille)",
+      value: "~21 ft deployed (5-ft bed Tacoma + tailgate down + 18\" sub at the grille)",
     },
   ],
 
