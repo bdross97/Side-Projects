@@ -48,8 +48,8 @@ export const site = {
   ],
 
   social: {
-    instagram: "INSTAGRAM_URL_HERE",
-    email: "contact@EMAIL_HERE",
+    instagram: "https://www.instagram.com/the_techoma/",
+    email: "info@thetechoma.com",
   },
 
   marquee:

@@ -21,9 +21,6 @@ export function TeamCard({ member }: { member: TeamMember }) {
       </div>
 
       <div className="flex flex-col gap-1 font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">
-        <a href={`mailto:${member.email}`} className="hover:text-white">
-          {member.email}
-        </a>
         <a href={member.instagram} className="hover:text-white">
           Instagram
         </a>

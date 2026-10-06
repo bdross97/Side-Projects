@@ -8,7 +8,6 @@ export type TeamMember = {
   role: string;
   bio: string;
   photoSrc?: string;
-  email: string;
   instagram: string;
 };
 
@@ -18,7 +17,6 @@ export const team: TeamMember[] = [
     name: "Meridian",
     role: "Owner",
     bio: "BIO_HERE",
-    email: "MERIDIAN_EMAIL_HERE",
     instagram: "MERIDIAN_INSTAGRAM_URL_HERE",
   },
   {
@@ -26,7 +24,6 @@ export const team: TeamMember[] = [
     name: "McCall Tingey",
     role: "Owner",
     bio: "BIO_HERE",
-    email: "MCCALL_EMAIL_HERE",
     instagram: "MCCALL_INSTAGRAM_URL_HERE",
   },
 ];
