@@ -6,6 +6,8 @@ import { DecodeText } from "@/components/motion/DecodeText";
 import { MicroLabel } from "@/components/ui/MicroLabel";
 import { BookingForm } from "./BookingForm";
 import { site } from "@/content/site";
+import { pricing } from "@/content/pricing";
+import { selectionFromParams } from "@/lib/estimate";
 
 export function BookPageContent() {
   const searchParams = useSearchParams();
@@ -13,6 +15,7 @@ export function BookPageContent() {
   const defaultEventType = site.eventTypes.includes(presetType as (typeof site.eventTypes)[number])
     ? (presetType as string)
     : undefined;
+  const estimate = selectionFromParams(searchParams);
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-24">
@@ -21,7 +24,15 @@ export function BookPageContent() {
       </DecodeText>
 
       <div id="form" className="scroll-mt-24">
-        <BookingForm key={defaultEventType ?? "none"} defaultEventType={defaultEventType} />
+        {/* Keyed on the query string so arriving from a new estimate resets the form. */}
+        <BookingForm
+          key={searchParams.toString()}
+          defaultEventType={defaultEventType}
+          estimate={estimate}
+        />
+        <p className="mt-6 font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">
+          {pricing.bookingFootnote}
+        </p>
       </div>
 
       <div className="mt-12 flex flex-col gap-2 border-t border-neutral-800 pt-8 font-sans text-sm uppercase tracking-[0.2em] text-neutral-500">

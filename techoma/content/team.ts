@@ -26,4 +26,11 @@ export const team: TeamMember[] = [
     bio: "BIO_HERE",
     instagram: "MCCALL_INSTAGRAM_URL_HERE",
   },
+  {
+    id: "brandon-ross",
+    name: "Brandon Ross",
+    role: "Multi-Media and Video",
+    bio: "BIO_HERE",
+    instagram: "BRANDON_INSTAGRAM_URL_HERE",
+  },
 ];

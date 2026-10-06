@@ -42,6 +42,7 @@ export const site = {
     { label: "Home", href: "/" },
     { label: "The Rig", href: "/the-rig" },
     { label: "Territory", href: "/reach" },
+    { label: "Pricing", href: "/pricing" },
     { label: "Team", href: "/team" },
     { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },

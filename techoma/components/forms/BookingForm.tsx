@@ -2,19 +2,122 @@
 
 import { useState, type FormEvent } from "react";
 import { site } from "@/content/site";
+import { pricing } from "@/content/pricing";
+import { EstimateView } from "@/components/pricing/EstimateView";
 import { cn } from "@/lib/utils";
+import {
+  buildEstimate,
+  formatUSD,
+  HOURLY_ADD_ONS,
+  toPackageId,
+  toZoneId,
+  type HourlyAddOnId,
+  type Selection,
+} from "@/lib/estimate";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
 type FieldErrors = Partial<Record<"name" | "email" | "eventType" | "message", string>>;
 
+type FourWdAnswer = "" | "yes" | "no" | "unsure";
+
+// Crew details as the user edits them. Selects hold a string so "Not sure"
+// can be stored alongside a real choice; selectionFrom converts it.
+type CrewDetails = {
+  packageValue: string;
+  overtimeHours: number;
+  zoneValue: string;
+  fourWd: FourWdAnswer;
+  hours: Record<HourlyAddOnId, number>;
+  lateNight: boolean;
+};
+
+type Option = { value: string; label: string };
+
 const inputClasses =
   "w-full border border-neutral-700 bg-black px-4 py-3 font-sans text-sm text-white placeholder:text-neutral-600 focus:border-white focus:outline-none";
 const labelClasses = "mb-2 block font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-500";
 
-export function BookingForm({ defaultEventType }: { defaultEventType?: string }) {
+const NOT_SURE = "unsure";
+
+const packageOptions: Option[] = [
+  ...pricing.packages.map((pkg) => ({ value: pkg.id, label: pkg.name })),
+  { value: NOT_SURE, label: "Not sure" },
+];
+
+const zoneOptions: Option[] = [
+  ...pricing.travelZones.map((zone) => ({
+    value: zone.id,
+    label: `${zone.label} · ${zone.distance}`,
+  })),
+  { value: NOT_SURE, label: "Not sure" },
+];
+
+const fourWdOptions: Option[] = [
+  { value: "yes", label: "Yes" },
+  { value: "no", label: "No" },
+  { value: NOT_SURE, label: "Not sure" },
+];
+
+const overtimeOptions: Option[] = Array.from({ length: pricing.overtime.maxHours + 1 }, (_, hours) => ({
+  value: String(hours),
+  label: hours === 0 ? "None" : `${hours} hr`,
+}));
+
+function detailsFrom(preset: Selection | null): CrewDetails {
+  if (!preset) {
+    return {
+      packageValue: "",
+      overtimeHours: 0,
+      zoneValue: "",
+      fourWd: "",
+      hours: { houseDj: 0, secondOperator: 0, earlyArrival: 0 },
+      lateNight: false,
+    };
+  }
+  return {
+    packageValue: preset.packageId ?? "",
+    overtimeHours: preset.overtimeHours,
+    zoneValue: preset.zoneId ?? "",
+    fourWd: preset.offRoad ? "yes" : "no",
+    hours: preset.hours,
+    lateNight: preset.lateNight,
+  };
+}
+
+function selectionFrom(details: CrewDetails): Selection {
+  return {
+    packageId: toPackageId(details.packageValue),
+    overtimeHours: details.overtimeHours,
+    zoneId: toZoneId(details.zoneValue),
+    offRoad: details.fourWd === "yes",
+    hours: details.hours,
+    lateNight: details.lateNight,
+  };
+}
+
+function labelFor(options: Option[], value: string): string {
+  return options.find((option) => option.value === value)?.label ?? "Not selected";
+}
+
+export function BookingForm({
+  defaultEventType,
+  estimate,
+}: {
+  defaultEventType?: string;
+  estimate?: Selection | null;
+}) {
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [details, setDetails] = useState<CrewDetails>(() => detailsFrom(estimate ?? null));
+
+  const result = buildEstimate(selectionFrom(details));
+  const incomplete = result.incomplete || details.fourWd === "" || details.fourWd === NOT_SURE;
+
+  const update = (changes: Partial<CrewDetails>) =>
+    setDetails((prev) => ({ ...prev, ...changes }));
+  const setHours = (id: HourlyAddOnId, hours: number) =>
+    setDetails((prev) => ({ ...prev, hours: { ...prev.hours, [id]: hours } }));
 
   if (!site.formspreeId) {
     return (
@@ -82,6 +185,20 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
     );
   }
 
+  // Readable copies of the selections go to Formspree as labeled fields, so
+  // the email shows "Package: Half Day" rather than an internal id.
+  const addOnSummary =
+    [
+      ...HOURLY_ADD_ONS.filter((id) => details.hours[id] > 0).map(
+        (id) => `${pricing.addOns[id].label} (${details.hours[id]} hr)`
+      ),
+      ...(details.lateNight ? [pricing.addOns.lateNight.label] : []),
+    ].join(", ") || "None";
+  const totalSummary = result.customQuote ? "Custom quote" : formatUSD(result.total);
+  const breakdownSummary = result.lines
+    .map((line) => `${line.label}: ${line.amount !== null ? formatUSD(line.amount) : line.note}`)
+    .join("\n");
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -138,6 +255,109 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
         <Field label="Expected Crowd Size" name="crowdSize" placeholder="e.g. 50" />
       </div>
 
+      <fieldset className="flex flex-col gap-6 border-t border-neutral-800 pt-8">
+        <legend className={cn(labelClasses, "mb-6")}>Booking details</legend>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <SelectField
+            id="package"
+            label="Package"
+            value={details.packageValue}
+            options={packageOptions}
+            onChange={(packageValue) => update({ packageValue })}
+          />
+          <SelectField
+            id="overtime"
+            label="Overtime"
+            value={String(details.overtimeHours)}
+            options={overtimeOptions}
+            onChange={(value) => update({ overtimeHours: Number(value) })}
+          />
+          <SelectField
+            id="travelZone"
+            label="Travel Zone"
+            value={details.zoneValue}
+            options={zoneOptions}
+            onChange={(zoneValue) => update({ zoneValue })}
+          />
+          <SelectField
+            id="fourWd"
+            label="Does the site require 4x4 access?"
+            value={details.fourWd}
+            options={fourWdOptions}
+            onChange={(value) => update({ fourWd: value as FourWdAnswer })}
+          />
+        </div>
+
+        <div>
+          <p className={labelClasses}>Add-ons</p>
+          <div className="flex flex-col gap-3">
+            {HOURLY_ADD_ONS.map((id) => {
+              const addOn = pricing.addOns[id];
+              const hours = details.hours[id];
+              return (
+                <div
+                  key={id}
+                  className="flex flex-wrap items-center justify-between gap-4 border border-neutral-800 p-4"
+                >
+                  <label className="flex items-center gap-3 font-sans text-sm text-white">
+                    <input
+                      type="checkbox"
+                      checked={hours > 0}
+                      onChange={(event) => setHours(id, event.target.checked ? 1 : 0)}
+                      className="h-4 w-4 accent-white"
+                    />
+                    {addOn.label}
+                    <span className="text-xs text-neutral-500">{formatUSD(addOn.price)} / hr</span>
+                  </label>
+                  {hours > 0 && (
+                    <label className="flex items-center gap-3 font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-500">
+                      Hours
+                      <input
+                        type="number"
+                        min={1}
+                        max={pricing.hourlyMaxHours}
+                        value={hours}
+                        onChange={(event) =>
+                          setHours(
+                            id,
+                            Math.min(
+                              pricing.hourlyMaxHours,
+                              Math.max(1, Math.round(Number(event.target.value)) || 1)
+                            )
+                          )
+                        }
+                        className={cn(inputClasses, "w-20 py-2")}
+                      />
+                    </label>
+                  )}
+                </div>
+              );
+            })}
+
+            <label className="flex items-center gap-3 border border-neutral-800 p-4 font-sans text-sm text-white">
+              <input
+                type="checkbox"
+                checked={details.lateNight}
+                onChange={(event) => update({ lateNight: event.target.checked })}
+                className="h-4 w-4 accent-white"
+              />
+              {pricing.addOns.lateNight.label}
+              <span className="text-xs text-neutral-500">{formatUSD(pricing.addOns.lateNight.price)} flat</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Hidden fields carry the readable selections and estimate into the Formspree email. */}
+        <input type="hidden" name="Package" value={labelFor(packageOptions, details.packageValue)} />
+        <input type="hidden" name="Overtime" value={`${details.overtimeHours} hr`} />
+        <input type="hidden" name="Travel Zone" value={labelFor(zoneOptions, details.zoneValue)} />
+        <input type="hidden" name="4x4 Access Required" value={labelFor(fourWdOptions, details.fourWd)} />
+        <input type="hidden" name="Add-Ons" value={addOnSummary} />
+        <input type="hidden" name="Estimate" value={totalSummary} />
+        <input type="hidden" name="Estimate Breakdown" value={breakdownSummary} />
+      </fieldset>
+
       <div>
         <label className={labelClasses} htmlFor="message">
           Message
@@ -150,6 +370,17 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
           required
         />
         {errors.message && <ErrorText>{errors.message}</ErrorText>}
+      </div>
+
+      <div className="flex flex-col gap-4 border border-neutral-800 p-6">
+        <p className={labelClasses}>Estimate</p>
+        <EstimateView estimate={result} />
+        {incomplete && (
+          <p className="font-sans text-xs leading-relaxed text-neutral-500">
+            Choose a package, travel zone, and 4x4 answer to finish the estimate. Items marked
+            Not sure are not priced.
+          </p>
+        )}
       </div>
 
       {state === "error" && (
@@ -166,6 +397,43 @@ export function BookingForm({ defaultEventType }: { defaultEventType?: string })
         {state === "submitting" ? "Sending..." : "Send"}
       </button>
     </form>
+  );
+}
+
+function SelectField({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  options: Option[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <label className={labelClasses} htmlFor={id}>
+        {label}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={inputClasses}
+      >
+        <option value="" disabled>
+          Select one
+        </option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 

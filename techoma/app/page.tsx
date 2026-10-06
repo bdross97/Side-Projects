@@ -63,6 +63,14 @@ export default function Home() {
             />
           ))}
         </div>
+        <div className="mt-10">
+          <Link
+            href="/pricing"
+            className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-white"
+          >
+            See pricing
+          </Link>
+        </div>
       </section>
 
       <Marquee text={site.marquee} className="my-4" />
