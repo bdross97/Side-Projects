@@ -31,9 +31,10 @@ export const site = {
   },
 
   description: [
-    "The TECHOMA is a mobile sound rig built on a lifted 4x4 Tacoma. Two tops on the rack, an 18-inch sub on the ground, and decks on the tailgate. It sets up in minutes and packs down just as fast.",
+    "The TECHOMA is a mobile sound rig built on a 2019 Toyota Tacoma 4x4 with a Dometic Pro Bed Rack Kit. A Slimline II rack carries the tops, an 18-inch sub rides on the ground, and decks come out on the tailgate. It sets up in minutes and packs down just as fast.",
     "It runs two ways. Off grid, an onboard battery system powers the full rig quietly with no generator. Where power is available, it plugs straight in and runs as long as the night does.",
     "It's built for range. Upgraded suspension and bigger tires take it down dirt roads, up canyon pull-offs, and out to open desert. Its compact frame lets it slide into a parking lot, a side street, or a gap between buildings and turn it into a dance floor.",
+    "Outside of shows, it's a camping rig. The Slimline II rack and Pro Bed system carry the gear for trips into the backcountry, so the same truck that brings the sound also takes you to camp.",
     "The TECHOMA hosts its own pop-up events and is available for block parties, outdoor gatherings, private bookings, and guest DJs.",
   ],
 
