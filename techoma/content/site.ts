@@ -10,8 +10,10 @@ export const site = {
   // color, used as the one deliberate accent, exclusively on the ConeMark motif.
   truckColor: "#C6B296",
 
+  missionHeading: "No venue required.",
+
   mission:
-    "No venue required. The TECHOMA is a lifted 4x4 sound rig built to roam. It fits in a parking space, climbs to the trailhead, and slips down any alley.",
+    "The TECHOMA is a lifted 4x4 sound rig built to roam. It fits in a parking space, climbs to the trailhead, and slips down any alley.",
 
   // Top-left micro-label on the home hero.
   heroSignalLabel: "ROAMING",

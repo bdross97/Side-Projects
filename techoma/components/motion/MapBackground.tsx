@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import cityData from "@/content/maps/city-lines.json";
 import trailData from "@/content/maps/trail-lines.json";
-import { ConeMark } from "./ConeMark";
 import { useReducedMotion } from "./useReducedMotion";
 import { site } from "@/content/site";
 
@@ -136,22 +135,21 @@ export function MapBackground() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            {[0, 1].map((i) => (
+            {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                 style={{ border: `1px solid ${site.truckColor}` }}
-                initial={{ width: 10, height: 10, opacity: 0.8 }}
-                animate={{ width: 64, height: 64, opacity: 0 }}
+                initial={{ width: 6, height: 6, opacity: 0 }}
+                animate={{ width: 60, height: 60, opacity: [0, 0.9, 0] }}
                 transition={{
-                  duration: 2.2,
+                  duration: 2.1,
                   ease: "easeOut",
                   repeat: Infinity,
-                  delay: i * 1.3,
+                  delay: i * 0.7,
                 }}
               />
             ))}
-            <ConeMark size={44} animate />
           </motion.div>
         </div>
       )}

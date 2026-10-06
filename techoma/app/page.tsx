@@ -44,13 +44,16 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-2xl px-6 py-24 text-center">
-        <p className="font-sans text-base leading-relaxed text-neutral-300 md:text-lg">
+        <h2 className="font-display text-3xl uppercase text-white md:text-4xl">
+          {site.missionHeading}
+        </h2>
+        <p className="mt-6 font-sans text-base leading-relaxed text-neutral-300 md:text-lg">
           {site.mission}
         </p>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <DecodeText eyebrow="002" className="mb-12">
+        <DecodeText eyebrow="002" className="mb-12 text-3xl md:text-5xl">
           Territory
         </DecodeText>
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -68,7 +71,7 @@ export default function Home() {
       <Marquee text={site.marquee} className="my-4" />
 
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <DecodeText eyebrow="003" className="mb-12">
+        <DecodeText eyebrow="003" className="mb-12 text-3xl md:text-5xl">
           Next Stop
         </DecodeText>
 

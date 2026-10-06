@@ -21,7 +21,7 @@ type WordmarkProps = {
 };
 
 const SIZE_CLASSES: Record<WordmarkSize, string> = {
-  hero: "text-[15vw] sm:text-[11vw] md:text-8xl lg:text-9xl",
+  hero: "text-[12vw] sm:text-[11vw] md:text-8xl lg:text-9xl",
   header: "text-lg md:text-xl",
   footer: "text-base",
 };
