@@ -5,13 +5,18 @@ export function Footer() {
   return (
     <footer className="border-t border-neutral-900 px-6 py-10">
       <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-        <Wordmark size="footer" skipDecode className="text-neutral-500" />
+        <span style={{ color: site.truckColor }}>
+          <Wordmark size="footer" skipDecode />
+        </span>
 
-        <div className="flex flex-col gap-2 font-sans text-xs uppercase tracking-[0.3em] text-neutral-500 sm:flex-row sm:gap-8">
-          <a href={site.social.instagram} className="hover:text-white">
+        <div
+          className="flex flex-col gap-2 font-sans text-xs uppercase tracking-[0.3em] sm:flex-row sm:gap-8"
+          style={{ color: site.truckColor }}
+        >
+          <a href={site.social.instagram} className="hover:opacity-70">
             Instagram
           </a>
-          <a href={`mailto:${site.social.email}`} className="hover:text-white">
+          <a href={`mailto:${site.social.email}`} className="hover:opacity-70">
             {site.social.email}
           </a>
         </div>

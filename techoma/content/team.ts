@@ -16,8 +16,8 @@ export const team: TeamMember[] = [
     id: "meridian",
     name: "Meridian",
     role: "Owner",
-    bio: "BIO_HERE",
-    instagram: "MERIDIAN_INSTAGRAM_URL_HERE",
+    bio: "Meridian is a house and melodic techno artist built around driving, high energy grooves layered with melodic sounds and atmospheres. His name draws from thresholds, the lines where things meet in nature, carried through in sound as motion rather than mood. He is one of the co-owners and co-creators of The TECHOMA, and loves building the local scene and making connections through music.",
+    instagram: "https://www.instagram.com/meridian.ut",
   },
   {
     id: "mccall-tingey",

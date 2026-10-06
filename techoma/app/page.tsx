@@ -26,9 +26,6 @@ export default function Home() {
         <div className="absolute left-6 top-6">
           <MicroLabel>{site.heroSignalLabel}</MicroLabel>
         </div>
-        <div className="absolute bottom-6 right-6">
-          <MicroLabel>001</MicroLabel>
-        </div>
 
         <Wordmark size="hero" showThe className="text-white" />
 

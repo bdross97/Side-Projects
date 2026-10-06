@@ -16,7 +16,7 @@ export const site = {
     "The TECHOMA is a lifted 4x4 sound rig built to roam. It fits in a parking space, climbs to the trailhead, and slips down any alley.",
 
   // Top-left micro-label on the home hero.
-  heroSignalLabel: "ROAMING",
+  heroSignalLabel: "ROAMING · 001",
 
   // Current status, shown in the footer as "STATUS: {status}".
   status: "ROAMING",
