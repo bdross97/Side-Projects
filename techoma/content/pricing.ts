@@ -61,13 +61,16 @@ export const pricing = {
   // Listed on the pricing page as included, never as a paid add-on.
   includedExtras: [{ label: "Shore power hookup" }],
 
+  // Not part of the calculator or pricing table. Used by the FAQ only.
+  wirelessMic: { label: "Wireless mic", price: 50 },
+
   // Upper limit for any hourly add-on in the calculator and booking form.
   hourlyMaxHours: 12,
 
   policies: [
-    "50% deposit to book. Non-refundable within 14 days of the event.",
+    "50% deposit to book. Non-refundable within 14 days of the event, except for weather cancellations.",
     "Client is responsible for permits, landowner permission, and local noise rules.",
-    "Weather call is made 24 hours out. Weather cancellations get a reschedule credit instead of a refund.",
+    "Weather call is made 24 hours out. Weather cancellations can be rescheduled or refunded. Travel fees are non-refundable, and events more than 50 miles out keep 10% of the booking total.",
     "The crew may end a set early if conditions become unsafe, without refund.",
     "Client is responsible for damage caused by their guests.",
   ],

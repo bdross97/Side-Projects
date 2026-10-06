@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { DecodeText } from "@/components/motion/DecodeText";
 import { EstimateCalculator } from "@/components/pricing/EstimateCalculator";
@@ -152,6 +153,15 @@ export default function PricingPage() {
         </DecodeText>
         <EstimateCalculator />
       </section>
+
+      <div className="mt-16 text-center">
+        <Link
+          href="/faq"
+          className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-white"
+        >
+          Questions? Read the FAQ
+        </Link>
+      </div>
 
       <section className={sectionClasses}>
         <DecodeText eyebrow="006" className={headingClasses}>

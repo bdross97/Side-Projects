@@ -19,6 +19,9 @@ export function Footer() {
           <a href={`mailto:${site.social.email}`} className="hover:opacity-70">
             {site.social.email}
           </a>
+          <a href="/faq" className="hover:opacity-70">
+            FAQ
+          </a>
         </div>
       </div>
 
