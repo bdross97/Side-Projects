@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "The Rig",
-  description: "Two tops, an 18-inch sub, decks on the tailgate. Built on a lifted 4x4 Tacoma.",
+  description: "Two tops, an 18-inch sub, decks on the Slimline II rack. Built on a lifted 4x4 Tacoma.",
 };
 
 export default function TheRigPage() {
@@ -17,9 +17,9 @@ export default function TheRigPage() {
       </DecodeText>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <MediaSlot alt="The TECHOMA, hero photo" label="IMAGE 01 · 16:9" aspect="16/9" className="md:col-span-2" />
-        <MediaSlot alt="The TECHOMA, side profile" label="IMAGE 02 · 16:9" aspect="16/9" />
-        <MediaSlot alt="The TECHOMA, rig detail" label="IMAGE 03 · 16:9" aspect="16/9" />
+        <MediaSlot src="/images/rig-side-profile.jpg" alt="The TECHOMA, side profile" label="IMAGE 01 · 3:2" aspect="3/2" className="md:col-span-2" />
+        <MediaSlot src="/images/rig-color-washed.jpg" alt="The TECHOMA, color-washed view" label="IMAGE 02 · 3:2" aspect="3/2" />
+        <MediaSlot alt="The TECHOMA, rig detail" label="IMAGE 03 · 3:2" aspect="3/2" />
       </div>
 
       <div className="mt-16 flex max-w-2xl flex-col gap-6">

@@ -64,7 +64,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 <Link
                   href={item.href}
                   className={cn(
-                    "font-display text-5xl uppercase text-white transition-colors hover:text-neutral-400 sm:text-6xl",
+                    "font-display text-[clamp(1.75rem,9.5vw,3rem)] uppercase text-white transition-colors hover:text-neutral-400 sm:text-6xl",
                     pathname === item.href && "text-neutral-500"
                   )}
                 >
