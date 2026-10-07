@@ -8,9 +8,7 @@ import {
   buildEstimate,
   DEFAULT_SELECTION,
   formatUSD,
-  HOURLY_ADD_ONS,
   selectionToParams,
-  type HourlyAddOnId,
   type Selection,
 } from "@/lib/estimate";
 import { cn } from "@/lib/utils";
@@ -23,8 +21,6 @@ export function EstimateCalculator() {
 
   const patch = (changes: Partial<Selection>) =>
     setSelection((prev) => ({ ...prev, ...changes }));
-  const setHours = (id: HourlyAddOnId, hours: number) =>
-    setSelection((prev) => ({ ...prev, hours: { ...prev.hours, [id]: hours } }));
 
   return (
     <div className="grid grid-cols-1 gap-px border border-neutral-800 bg-neutral-800 md:grid-cols-[1fr_360px]">
@@ -86,39 +82,18 @@ export function EstimateCalculator() {
 
         <Row label="Add-ons">
           <ul className="flex flex-col">
-            {HOURLY_ADD_ONS.map((id) => {
-              const addOn = pricing.addOns[id];
-              return (
-                <li
-                  key={id}
-                  className="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-800 py-4 first:border-t-0 first:pt-0"
-                >
-                  <span className="font-sans text-sm text-white">
-                    {addOn.label}
-                    <span className="ml-3 text-xs text-neutral-500">
-                      {formatUSD(addOn.price)} / hr
-                    </span>
-                  </span>
-                  <Stepper
-                    label={`${addOn.label} hours`}
-                    value={selection.hours[id]}
-                    max={pricing.hourlyMaxHours}
-                    onChange={(hours) => setHours(id, hours)}
-                  />
-                </li>
-              );
-            })}
-            <li className="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-800 py-4">
+            <li className="flex flex-wrap items-center justify-between gap-4 py-4 first:pt-0">
               <span className="font-sans text-sm text-white">
-                {pricing.addOns.lateNight.label}
+                {pricing.addOns.houseDj.label}
                 <span className="ml-3 text-xs text-neutral-500">
-                  {formatUSD(pricing.addOns.lateNight.price)} flat
+                  {formatUSD(pricing.addOns.houseDj.price)} / hr
                 </span>
               </span>
-              <Toggle
-                label={pricing.addOns.lateNight.label}
-                checked={selection.lateNight}
-                onChange={(lateNight) => patch({ lateNight })}
+              <Stepper
+                label="House DJ hours"
+                value={selection.djHours}
+                max={pricing.hourlyMaxHours}
+                onChange={(djHours) => patch({ djHours })}
               />
             </li>
           </ul>

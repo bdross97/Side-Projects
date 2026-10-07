@@ -8,10 +8,8 @@ import { cn } from "@/lib/utils";
 import {
   buildEstimate,
   formatUSD,
-  HOURLY_ADD_ONS,
   toPackageId,
   toZoneId,
-  type HourlyAddOnId,
   type Selection,
 } from "@/lib/estimate";
 
@@ -28,8 +26,7 @@ type CrewDetails = {
   overtimeHours: number;
   zoneValue: string;
   fourWd: FourWdAnswer;
-  hours: Record<HourlyAddOnId, number>;
-  lateNight: boolean;
+  djHours: number;
 };
 
 type Option = { value: string; label: string };
@@ -66,22 +63,14 @@ const overtimeOptions: Option[] = Array.from({ length: pricing.overtime.maxHours
 
 function detailsFrom(preset: Selection | null): CrewDetails {
   if (!preset) {
-    return {
-      packageValue: "",
-      overtimeHours: 0,
-      zoneValue: "",
-      fourWd: "",
-      hours: { houseDj: 0, secondOperator: 0, earlyArrival: 0 },
-      lateNight: false,
-    };
+    return { packageValue: "", overtimeHours: 0, zoneValue: "", fourWd: "", djHours: 0 };
   }
   return {
     packageValue: preset.packageId ?? "",
     overtimeHours: preset.overtimeHours,
     zoneValue: preset.zoneId ?? "",
     fourWd: preset.offRoad ? "yes" : "no",
-    hours: preset.hours,
-    lateNight: preset.lateNight,
+    djHours: preset.djHours,
   };
 }
 
@@ -91,8 +80,7 @@ function selectionFrom(details: CrewDetails): Selection {
     overtimeHours: details.overtimeHours,
     zoneId: toZoneId(details.zoneValue),
     offRoad: details.fourWd === "yes",
-    hours: details.hours,
-    lateNight: details.lateNight,
+    djHours: details.djHours,
   };
 }
 
@@ -116,8 +104,6 @@ export function BookingForm({
 
   const update = (changes: Partial<CrewDetails>) =>
     setDetails((prev) => ({ ...prev, ...changes }));
-  const setHours = (id: HourlyAddOnId, hours: number) =>
-    setDetails((prev) => ({ ...prev, hours: { ...prev.hours, [id]: hours } }));
 
   if (!site.formspreeId) {
     return (
@@ -188,12 +174,7 @@ export function BookingForm({
   // Readable copies of the selections go to Formspree as labeled fields, so
   // the email shows "Package: Half Day" rather than an internal id.
   const addOnSummary =
-    [
-      ...HOURLY_ADD_ONS.filter((id) => details.hours[id] > 0).map(
-        (id) => `${pricing.addOns[id].label} (${details.hours[id]} hr)`
-      ),
-      ...(details.lateNight ? [pricing.addOns.lateNight.label] : []),
-    ].join(", ") || "None";
+    details.djHours > 0 ? `${pricing.addOns.houseDj.label} (${details.djHours} hr)` : "None";
   const totalSummary = result.customQuote ? "Custom quote" : formatUSD(result.total);
   const breakdownSummary = result.lines
     .map((line) => `${line.label}: ${line.amount !== null ? formatUSD(line.amount) : line.note}`)
@@ -292,59 +273,40 @@ export function BookingForm({
         <div>
           <p className={labelClasses}>Add-ons</p>
           <div className="flex flex-col gap-3">
-            {HOURLY_ADD_ONS.map((id) => {
-              const addOn = pricing.addOns[id];
-              const hours = details.hours[id];
-              return (
-                <div
-                  key={id}
-                  className="flex flex-wrap items-center justify-between gap-4 border border-neutral-800 p-4"
-                >
-                  <label className="flex items-center gap-3 font-sans text-sm text-white">
-                    <input
-                      type="checkbox"
-                      checked={hours > 0}
-                      onChange={(event) => setHours(id, event.target.checked ? 1 : 0)}
-                      className="h-4 w-4 accent-white"
-                    />
-                    {addOn.label}
-                    <span className="text-xs text-neutral-500">{formatUSD(addOn.price)} / hr</span>
-                  </label>
-                  {hours > 0 && (
-                    <label className="flex items-center gap-3 font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-500">
-                      Hours
-                      <input
-                        type="number"
-                        min={1}
-                        max={pricing.hourlyMaxHours}
-                        value={hours}
-                        onChange={(event) =>
-                          setHours(
-                            id,
-                            Math.min(
-                              pricing.hourlyMaxHours,
-                              Math.max(1, Math.round(Number(event.target.value)) || 1)
-                            )
-                          )
-                        }
-                        className={cn(inputClasses, "w-20 py-2")}
-                      />
-                    </label>
-                  )}
-                </div>
-              );
-            })}
-
-            <label className="flex items-center gap-3 border border-neutral-800 p-4 font-sans text-sm text-white">
-              <input
-                type="checkbox"
-                checked={details.lateNight}
-                onChange={(event) => update({ lateNight: event.target.checked })}
-                className="h-4 w-4 accent-white"
-              />
-              {pricing.addOns.lateNight.label}
-              <span className="text-xs text-neutral-500">{formatUSD(pricing.addOns.lateNight.price)} flat</span>
-            </label>
+            <div className="flex flex-wrap items-center justify-between gap-4 border border-neutral-800 p-4">
+              <label className="flex items-center gap-3 font-sans text-sm text-white">
+                <input
+                  type="checkbox"
+                  checked={details.djHours > 0}
+                  onChange={(event) => update({ djHours: event.target.checked ? 1 : 0 })}
+                  className="h-4 w-4 accent-white"
+                />
+                {pricing.addOns.houseDj.label}
+                <span className="text-xs text-neutral-500">
+                  {formatUSD(pricing.addOns.houseDj.price)} / hr
+                </span>
+              </label>
+              {details.djHours > 0 && (
+                <label className="flex items-center gap-3 font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-500">
+                  Hours
+                  <input
+                    type="number"
+                    min={1}
+                    max={pricing.hourlyMaxHours}
+                    value={details.djHours}
+                    onChange={(event) =>
+                      update({
+                        djHours: Math.min(
+                          pricing.hourlyMaxHours,
+                          Math.max(1, Math.round(Number(event.target.value)) || 1)
+                        ),
+                      })
+                    }
+                    className={cn(inputClasses, "w-20 py-2")}
+                  />
+                </label>
+              )}
+            </div>
           </div>
         </div>
 

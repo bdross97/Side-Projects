@@ -2,22 +2,14 @@ import { pricing } from "@/content/pricing";
 
 export type PackageId = (typeof pricing.packages)[number]["id"];
 export type ZoneId = (typeof pricing.travelZones)[number]["id"];
-export type HourlyAddOnId = "houseDj" | "secondOperator" | "earlyArrival";
 
-export const HOURLY_ADD_ONS: readonly HourlyAddOnId[] = [
-  "houseDj",
-  "secondOperator",
-  "earlyArrival",
-];
-
-// Hours are 0 when an hourly add-on is off.
 export type Selection = {
   packageId: PackageId | null;
   overtimeHours: number;
   zoneId: ZoneId | null;
   offRoad: boolean;
-  hours: Record<HourlyAddOnId, number>;
-  lateNight: boolean;
+  // Hours for the only remaining paid add-on. 0 = off.
+  djHours: number;
 };
 
 export type EstimateLine = {
@@ -33,12 +25,6 @@ export type Estimate = {
   customQuote: boolean;
   // True when the package or travel zone has not been chosen.
   incomplete: boolean;
-};
-
-const HOURLY_PARAM: Record<HourlyAddOnId, string> = {
-  houseDj: "dj",
-  secondOperator: "op",
-  earlyArrival: "early",
 };
 
 // Anything with get/has works, including Next's ReadonlyURLSearchParams.
@@ -99,16 +85,12 @@ export function buildEstimate(selection: Selection): Estimate {
     lines.push({ label: pricing.offRoad.label, amount: pricing.offRoad.price });
   }
 
-  for (const id of HOURLY_ADD_ONS) {
-    const addOn = pricing.addOns[id];
-    const hours = clampInt(String(selection.hours[id]), 0, pricing.hourlyMaxHours);
-    if (hours > 0) {
-      lines.push({ label: `${addOn.label} · ${hours} hr`, amount: hours * addOn.price });
-    }
-  }
-
-  if (selection.lateNight) {
-    lines.push({ label: pricing.addOns.lateNight.label, amount: pricing.addOns.lateNight.price });
+  const djHours = clampInt(String(selection.djHours), 0, pricing.hourlyMaxHours);
+  if (djHours > 0) {
+    lines.push({
+      label: `${pricing.addOns.houseDj.label} · ${djHours} hr`,
+      amount: djHours * pricing.addOns.houseDj.price,
+    });
   }
 
   for (const line of lines) {
@@ -127,7 +109,7 @@ const PARAM_PACKAGE = "pkg";
 const PARAM_OVERTIME = "ot";
 const PARAM_ZONE = "zone";
 const PARAM_OFF_ROAD = "offroad";
-const PARAM_LATE_NIGHT = "late";
+const PARAM_DJ_HOURS = "dj";
 
 export function selectionToParams(selection: Selection): URLSearchParams {
   const params = new URLSearchParams();
@@ -135,10 +117,7 @@ export function selectionToParams(selection: Selection): URLSearchParams {
   if (selection.overtimeHours > 0) params.set(PARAM_OVERTIME, String(selection.overtimeHours));
   if (selection.zoneId) params.set(PARAM_ZONE, selection.zoneId);
   params.set(PARAM_OFF_ROAD, selection.offRoad ? "1" : "0");
-  for (const id of HOURLY_ADD_ONS) {
-    if (selection.hours[id] > 0) params.set(HOURLY_PARAM[id], String(selection.hours[id]));
-  }
-  if (selection.lateNight) params.set(PARAM_LATE_NIGHT, "1");
+  if (selection.djHours > 0) params.set(PARAM_DJ_HOURS, String(selection.djHours));
   return params;
 }
 
@@ -151,12 +130,7 @@ export function selectionFromParams(params: ParamReader): Selection | null {
     overtimeHours: clampInt(params.get(PARAM_OVERTIME), 0, pricing.overtime.maxHours),
     zoneId: toZoneId(params.get(PARAM_ZONE) ?? ""),
     offRoad: params.get(PARAM_OFF_ROAD) === "1",
-    hours: {
-      houseDj: clampInt(params.get(HOURLY_PARAM.houseDj), 0, pricing.hourlyMaxHours),
-      secondOperator: clampInt(params.get(HOURLY_PARAM.secondOperator), 0, pricing.hourlyMaxHours),
-      earlyArrival: clampInt(params.get(HOURLY_PARAM.earlyArrival), 0, pricing.hourlyMaxHours),
-    },
-    lateNight: params.get(PARAM_LATE_NIGHT) === "1",
+    djHours: clampInt(params.get(PARAM_DJ_HOURS), 0, pricing.hourlyMaxHours),
   };
 }
 
@@ -165,6 +139,5 @@ export const DEFAULT_SELECTION: Selection = {
   overtimeHours: 0,
   zoneId: "local",
   offRoad: false,
-  hours: { houseDj: 0, secondOperator: 0, earlyArrival: 0 },
-  lateNight: false,
+  djHours: 0,
 };

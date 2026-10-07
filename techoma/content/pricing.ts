@@ -17,9 +17,9 @@ export const pricing = {
   packageNote: "On-site time only. Setup and teardown are not counted.",
 
   packages: [
-    { id: "popup", name: "Pop-Up", onSite: "Up to 2 hrs", price: 500 },
-    { id: "halfday", name: "Half Day", onSite: "Up to 4 hrs", price: 850 },
-    { id: "fullday", name: "Full Day", onSite: "Up to 8 hrs", price: 1400 },
+    { id: "popup", name: "Pop-Up", onSite: "Up to 2 hrs", price: 200 },
+    { id: "halfday", name: "Half Day", onSite: "Up to 4 hrs", price: 400 },
+    { id: "fullday", name: "Full Day", onSite: "Up to 8 hrs", price: 850 },
   ],
 
   overtime: { price: 150, maxHours: 8 },
@@ -41,21 +41,14 @@ export const pricing = {
 
   offRoad: {
     label: "Off-road access",
-    price: 150,
+    price: 50,
     // {price} is replaced with the formatted off-road fee.
     copy: "If the site needs four-wheel drive, so do we. Off-road access is {price}.",
   },
 
-  // Hourly add-ons take an hours count; flat add-ons are a single toggle.
+  // The only hourly, paid add-on. Everything else is included at no extra cost.
   addOns: {
     houseDj: { label: "House DJ", price: 100, billing: "hourly" },
-    secondOperator: { label: "Second operator", price: 50, billing: "hourly" },
-    earlyArrival: {
-      label: "Early arrival / extended setup window",
-      price: 75,
-      billing: "hourly",
-    },
-    lateNight: { label: "Late night (after midnight)", price: 100, billing: "flat" },
   },
 
   // Listed on the pricing page as included, never as a paid add-on.
