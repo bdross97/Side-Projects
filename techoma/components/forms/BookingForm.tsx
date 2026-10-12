@@ -91,9 +91,12 @@ function labelFor(options: Option[], value: string): string {
 export function BookingForm({
   defaultEventType,
   estimate,
+  mode = "booking",
 }: {
   defaultEventType?: string;
   estimate?: Selection | null;
+  /** "dj" locks Event Type to Guest DJ and drops the crew/pricing section, which doesn't apply to a DJ set. */
+  mode?: "booking" | "dj";
 }) {
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -189,29 +192,33 @@ export function BookingForm({
         <Field label="Event Date" name="eventDate" type="date" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <label className={labelClasses} htmlFor="eventType">
-            Event Type
-          </label>
-          <select
-            id="eventType"
-            name="eventType"
-            defaultValue={defaultEventType ?? ""}
-            className={inputClasses}
-            required
-          >
-            <option value="" disabled>
-              Select one
-            </option>
-            {site.eventTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
+      <div className={mode === "dj" ? "grid grid-cols-1 gap-6" : "grid grid-cols-1 gap-6 sm:grid-cols-2"}>
+        {mode === "dj" ? (
+          <input type="hidden" name="eventType" value="Guest DJ" />
+        ) : (
+          <div>
+            <label className={labelClasses} htmlFor="eventType">
+              Event Type
+            </label>
+            <select
+              id="eventType"
+              name="eventType"
+              defaultValue={defaultEventType ?? ""}
+              className={inputClasses}
+              required
+            >
+              <option value="" disabled>
+                Select one
               </option>
-            ))}
-          </select>
-          {errors.eventType && <ErrorText>{errors.eventType}</ErrorText>}
-        </div>
+              {site.eventTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            {errors.eventType && <ErrorText>{errors.eventType}</ErrorText>}
+          </div>
+        )}
 
         <Field label="Location" name="location" placeholder="City, or venue" />
       </div>
@@ -236,6 +243,7 @@ export function BookingForm({
         <Field label="Expected Crowd Size" name="crowdSize" placeholder="e.g. 50" />
       </div>
 
+      {mode === "booking" && (
       <fieldset className="flex flex-col gap-6 border-t border-neutral-800 pt-8">
         <legend className={cn(labelClasses, "mb-6")}>Booking details</legend>
 
@@ -319,6 +327,7 @@ export function BookingForm({
         <input type="hidden" name="Estimate" value={totalSummary} />
         <input type="hidden" name="Estimate Breakdown" value={breakdownSummary} />
       </fieldset>
+      )}
 
       <div>
         <label className={labelClasses} htmlFor="message">
@@ -334,16 +343,18 @@ export function BookingForm({
         {errors.message && <ErrorText>{errors.message}</ErrorText>}
       </div>
 
-      <div className="flex flex-col gap-4 border border-neutral-800 p-6">
-        <p className={labelClasses}>Estimate</p>
-        <EstimateView estimate={result} />
-        {incomplete && (
-          <p className="font-sans text-xs leading-relaxed text-neutral-500">
-            Choose a package, travel zone, and 4x4 answer to finish the estimate. Items marked
-            Not sure are not priced.
-          </p>
-        )}
-      </div>
+      {mode === "booking" && (
+        <div className="flex flex-col gap-4 border border-neutral-800 p-6">
+          <p className={labelClasses}>Estimate</p>
+          <EstimateView estimate={result} />
+          {incomplete && (
+            <p className="font-sans text-xs leading-relaxed text-neutral-500">
+              Choose a package, travel zone, and 4x4 answer to finish the estimate. Items marked
+              Not sure are not priced.
+            </p>
+          )}
+        </div>
+      )}
 
       {state === "error" && (
         <p className="font-sans text-xs uppercase tracking-[0.25em] text-neutral-400">

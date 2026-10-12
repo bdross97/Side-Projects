@@ -34,8 +34,8 @@ export default function Home() {
         </p>
 
         <div className="mt-10">
-          <CTALink href="/book" variant="solid">
-            Book The TECHOMA
+          <CTALink href="/the-rig" variant="solid">
+            See The Rig
           </CTALink>
         </div>
       </section>
@@ -60,6 +60,7 @@ export default function Home() {
               index={useCase.index}
               label={useCase.label}
               summary={useCase.summary}
+              image={useCase.image}
             />
           ))}
         </div>

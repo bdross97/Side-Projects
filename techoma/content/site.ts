@@ -30,6 +30,14 @@ export const site = {
     subtitle: "The TECHOMA will be in touch.",
   },
 
+  // While false, /book shows the pending message below instead of the
+  // general booking form. Guest DJ applications (/book?type=Guest%20DJ)
+  // stay open regardless. Flip to true to bring booking back.
+  bookingOpen: false,
+  bookingPendingMessage: "Booking available soon.",
+  bookingPendingSubtitle:
+    "The TECHOMA is lining up the next season. Reach out directly in the meantime.",
+
   description: [
     "The TECHOMA is a mobile sound rig built on a 2019 Toyota Tacoma 4x4 with a Dometic Pro Bed Rack Kit. A Slimline II rack carries the tops, the decks sit on top of the rack, and an 18-inch sub rides on the ground. The DJ works from the open tailgate, facing the crowd. It sets up in minutes and packs down just as fast.",
     "It runs two ways. Off grid, an onboard battery system powers the full rig quietly with no generator. Where power is available, it plugs straight in and runs as long as the night does.",
@@ -46,7 +54,9 @@ export const site = {
     { label: "Team", href: "/team" },
     { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Book", href: "/book" },
+    // "Book" is hidden from nav while bookingOpen is false. DJ applications
+    // still work via the direct /book?type=Guest%20DJ link. Restore
+    // { label: "Book", href: "/book" } here when booking reopens.
   ],
 
   social: {
@@ -64,6 +74,7 @@ export const site = {
       index: "001",
       summary:
         "Dirt roads, trailheads, canyon pull-offs, and desert flats. If four wheels can get there, so can the sound.",
+      image: undefined,
     },
     {
       slug: "urban-popups",
@@ -71,6 +82,11 @@ export const site = {
       index: "002",
       summary:
         "A parking stall, a back alley, an empty lot. Pull in, set up, and turn dead space into a dance floor.",
+      image: {
+        src: "/images/rig-side-profile.jpg",
+        alt: "The TECHOMA, side profile, parked street-level",
+        aspect: "3/2",
+      },
     },
     {
       slug: "private-events",
@@ -78,6 +94,7 @@ export const site = {
       index: "003",
       summary:
         "Backyards, afterparties, and any night that deserves more than a speaker on a table.",
+      image: undefined,
     },
   ],
 
@@ -91,6 +108,7 @@ export const site = {
       label: "Footprint",
       value: "~21 ft deployed (5-ft bed Tacoma + tailgate down + 18\" sub at the grille)",
     },
+    { label: "Width", value: "75.2 in with mirrors (2019 Tacoma Double Cab)" },
   ],
 
   eventTypes: [
