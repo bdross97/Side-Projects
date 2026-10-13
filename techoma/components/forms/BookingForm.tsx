@@ -113,7 +113,7 @@ export function BookingForm({
         </p>
         <p className="mt-3 font-sans text-sm text-neutral-500">
           Reach out directly in the meantime:{" "}
-          <a href={`mailto:${site.social.email}`} className="text-white underline underline-offset-4">
+          <a href={`mailto:${site.social.email}`} className="text-white underline underline-offset-4 hover:text-sandstone">
             {site.social.email}
           </a>
         </p>
@@ -354,7 +354,7 @@ export function BookingForm({
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="inline-flex items-center justify-center border border-white bg-white px-6 py-3 font-sans text-xs uppercase tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-white disabled:opacity-50"
+        className="inline-flex items-center justify-center border border-white bg-white px-6 py-3 font-sans text-xs uppercase tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-sandstone disabled:opacity-50"
       >
         {state === "submitting" ? "Sending..." : "Send"}
       </button>

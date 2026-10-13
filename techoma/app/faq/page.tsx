@@ -57,7 +57,7 @@ export default function FaqPage() {
           </CTALink>
           <a
             href={`mailto:${site.social.email}`}
-            className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-white"
+            className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-sandstone"
           >
             {site.social.email}
           </a>

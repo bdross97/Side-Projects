@@ -157,7 +157,7 @@ export default function PricingPage() {
       <div className="mt-16 text-center">
         <Link
           href="/faq"
-          className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-white"
+          className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-sandstone"
         >
           Questions? Read the FAQ
         </Link>

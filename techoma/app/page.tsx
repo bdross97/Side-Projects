@@ -67,7 +67,7 @@ export default function Home() {
         <div className="mt-10">
           <Link
             href="/pricing"
-            className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-white"
+            className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 underline underline-offset-4 transition-colors hover:text-sandstone"
           >
             See pricing
           </Link>
@@ -104,7 +104,7 @@ export default function Home() {
         <MicroLabel className="mb-4 block">Follow</MicroLabel>
         <Link
           href={site.social.instagram}
-          className="font-display text-3xl uppercase text-white transition-colors hover:text-neutral-400 md:text-4xl"
+          className="font-display text-3xl uppercase text-white transition-colors hover:text-sandstone md:text-4xl"
         >
           Instagram
         </Link>

@@ -3,11 +3,17 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  /* Toyota paint code 4V6 ("Quicksand" sandstone/beige) — the truck's actual
+     color. Mirrors content/site.ts's `truckColor`; keep both in sync.
+     Used sitewide as the hover accent for clickable text, links, and
+     buttons, and anywhere else the truck color motif appears. */
+  --sandstone: #c6b296;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sandstone: var(--sandstone);
   --font-display: var(--font-paladins);
   --font-sans: var(--font-jetbrains);
 }

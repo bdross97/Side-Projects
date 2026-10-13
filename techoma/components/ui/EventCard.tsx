@@ -34,7 +34,7 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
             href={event.ticketUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-1 inline-block font-sans text-xs uppercase tracking-[0.3em] text-white underline underline-offset-4 hover:text-neutral-400"
+            className="mt-1 inline-block font-sans text-xs uppercase tracking-[0.3em] text-white underline underline-offset-4 hover:text-sandstone"
           >
             Tickets
           </a>

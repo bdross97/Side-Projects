@@ -28,7 +28,7 @@ export function FaqAccordion({ category }: { category: FaqCategory }) {
                 aria-expanded={open}
                 aria-controls={open ? panelId : undefined}
                 onClick={() => setOpenIndex(open ? null : index)}
-                className="flex w-full items-center justify-between gap-6 py-5 text-left font-sans text-sm text-white md:text-base"
+                className="group flex w-full items-center justify-between gap-6 py-5 text-left font-sans text-sm text-white transition-colors hover:text-sandstone md:text-base"
               >
                 <span>{item.question}</span>
                 <PlusMinus open={open} />
@@ -65,10 +65,10 @@ export function FaqAccordion({ category }: { category: FaqCategory }) {
 function PlusMinus({ open }: { open: boolean }) {
   return (
     <span aria-hidden="true" className="relative h-4 w-4 shrink-0">
-      <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-white" />
+      <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-white transition-colors group-hover:bg-sandstone" />
       <span
         className={cn(
-          "absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-white transition-transform duration-200",
+          "absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-white transition-all duration-200 group-hover:bg-sandstone",
           open && "scale-y-0"
         )}
       />
@@ -77,7 +77,7 @@ function PlusMinus({ open }: { open: boolean }) {
 }
 
 const linkClasses =
-  "text-white underline underline-offset-4 decoration-neutral-500 transition-colors hover:decoration-white";
+  "text-white underline underline-offset-4 decoration-neutral-500 transition-colors hover:text-sandstone hover:decoration-sandstone";
 
 /** Renders [label](href) as underlined links; internal paths use next/link. */
 function AnswerText({ text }: { text: string }) {

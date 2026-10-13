@@ -157,7 +157,7 @@ function Segmented<T extends string>({
             onClick={() => onChange(option.value)}
             className={cn(
               "flex flex-col items-start gap-1 px-4 py-3 text-left font-sans transition-colors",
-              selected ? "bg-white text-black" : "bg-black text-white hover:bg-neutral-900"
+              selected ? "bg-white text-black" : "bg-black text-white transition-colors hover:text-sandstone"
             )}
           >
             <span className="text-xs uppercase tracking-[0.2em]">{option.label}</span>
@@ -190,7 +190,7 @@ function Stepper({
   onChange: (value: number) => void;
 }) {
   const buttonClasses =
-    "px-4 py-2 font-sans text-sm text-white transition-colors hover:bg-white hover:text-black disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white";
+    "px-4 py-2 font-sans text-sm text-white transition-colors hover:bg-sandstone hover:text-black disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white";
   return (
     <div className="inline-flex border border-neutral-700">
       <button
@@ -234,7 +234,7 @@ function Toggle({
       aria-checked={checked}
       aria-label={label}
       onClick={() => onChange(!checked)}
-      className="inline-flex items-center gap-3 border border-neutral-700 px-4 py-2 font-sans text-xs uppercase tracking-[0.2em] text-white transition-colors hover:border-white"
+      className="inline-flex items-center gap-3 border border-neutral-700 px-4 py-2 font-sans text-xs uppercase tracking-[0.2em] text-white transition-colors hover:border-sandstone hover:text-sandstone"
     >
       <span className={cn("flex h-3 w-3 border border-white", checked && "bg-white")} />
       {checked ? "On" : "Off"}

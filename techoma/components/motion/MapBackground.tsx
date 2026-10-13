@@ -37,15 +37,14 @@ function MapLayer({ data, active }: { data: MapData; active: boolean }) {
 }
 
 /**
- * Subtle sitewide backdrop: gray line art of downtown SLC streets, glitching
- * periodically into the Wasatch foothill trail/canyon network. On each
- * switch, a truck-colored ping briefly marks a random spot, as if showing
- * where The TECHOMA is right now.
+ * Subtle sitewide backdrop: gray line art of downtown SLC streets,
+ * periodically crossfading into the Wasatch foothill trail/canyon network.
+ * On each switch, a truck-colored ping briefly marks a random spot, as if
+ * showing where The TECHOMA is right now.
  */
 export function MapBackground() {
   const reducedMotion = useReducedMotion();
   const [state, setState] = useState<MapState>("city");
-  const [glitching, setGlitching] = useState(false);
   const pingIdRef = useRef(0);
   // Deterministic null initial state (no Math.random during SSR/first render,
   // same reasoning as useScramble) — the first real ping is placed client-side
@@ -63,7 +62,6 @@ export function MapBackground() {
     });
 
     let flipTimeout: ReturnType<typeof setTimeout>;
-    let glitchOffTimeout: ReturnType<typeof setTimeout>;
 
     const schedule = () => {
       const delay = 9000 + Math.random() * 6000;
@@ -72,28 +70,21 @@ export function MapBackground() {
           schedule();
           return;
         }
-        setGlitching(true);
-        glitchOffTimeout = setTimeout(() => {
-          setGlitching(false);
-          setState((s) => (s === "city" ? "trail" : "city"));
+        setState((s) => (s === "city" ? "trail" : "city"));
 
-          // Replaces the previous ping — it stays locked on this spot,
-          // radar-style, until the next map switch moves it.
-          setPing({
-            id: ++pingIdRef.current,
-            x: 20 + Math.random() * 60,
-            y: 20 + Math.random() * 60,
-          });
-        }, 220);
+        // Replaces the previous ping — it stays locked on this spot,
+        // radar-style, until the next map switch moves it.
+        setPing({
+          id: ++pingIdRef.current,
+          x: 20 + Math.random() * 60,
+          y: 20 + Math.random() * 60,
+        });
         schedule();
       }, delay);
     };
     schedule();
 
-    return () => {
-      clearTimeout(flipTimeout);
-      clearTimeout(glitchOffTimeout);
-    };
+    return () => clearTimeout(flipTimeout);
   }, [reducedMotion]);
 
   return (
@@ -104,19 +95,6 @@ export function MapBackground() {
       >
         <MapLayer data={cityData as MapData} active={state === "city"} />
         <MapLayer data={trailData as MapData} active={state === "trail"} />
-
-        {glitching && !reducedMotion && (
-          <>
-            <div
-              className="absolute inset-0 bg-white/10"
-              style={{ clipPath: "inset(38% 0 42% 0)", transform: "translateX(8px)" }}
-            />
-            <div
-              className="absolute inset-0 bg-white/10"
-              style={{ clipPath: "inset(62% 0 15% 0)", transform: "translateX(-6px)" }}
-            />
-          </>
-        )}
       </div>
 
       {/* Rendered at full opacity, independent of the faint map lines above,

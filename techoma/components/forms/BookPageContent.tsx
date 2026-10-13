@@ -46,7 +46,7 @@ export function BookPageContent() {
             <p className="mt-3 font-sans text-sm text-neutral-500">
               <a
                 href={`mailto:${site.social.email}`}
-                className="text-white underline underline-offset-4"
+                className="text-white underline underline-offset-4 hover:text-sandstone"
               >
                 {site.social.email}
               </a>
@@ -56,15 +56,15 @@ export function BookPageContent() {
       </div>
 
       <div className="mt-12 flex flex-col gap-2 border-t border-neutral-800 pt-8 font-sans text-sm uppercase tracking-[0.2em] text-neutral-500">
-        <a href={`mailto:${site.social.email}`} className="hover:text-white">
+        <a href={`mailto:${site.social.email}`} className="hover:text-sandstone">
           {site.social.email}
         </a>
-        <a href={site.social.instagram} className="hover:text-white">
+        <a href={site.social.instagram} className="hover:text-sandstone">
           Instagram
         </a>
         <p className="normal-case tracking-normal text-neutral-600">
           Looking to DJ a set instead?{" "}
-          <Link href="/play" className="text-white underline underline-offset-4 hover:text-neutral-300">
+          <Link href="/play" className="text-white underline underline-offset-4 hover:text-sandstone">
             Play The TECHOMA
           </Link>
         </p>

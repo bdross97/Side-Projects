@@ -24,10 +24,10 @@ export default function PlayPage() {
       </div>
 
       <div className="mt-12 flex flex-col gap-2 border-t border-neutral-800 pt-8 font-sans text-sm uppercase tracking-[0.2em] text-neutral-500">
-        <a href={`mailto:${site.social.email}`} className="hover:text-white">
+        <a href={`mailto:${site.social.email}`} className="hover:text-sandstone">
           {site.social.email}
         </a>
-        <a href={site.social.instagram} className="hover:text-white">
+        <a href={site.social.instagram} className="hover:text-sandstone">
           Instagram
         </a>
       </div>

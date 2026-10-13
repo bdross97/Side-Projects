@@ -46,7 +46,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             <button
               type="button"
               onClick={onClose}
-              className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+              className="font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-sandstone focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
               aria-label="Close menu"
             >
               Close
@@ -64,7 +64,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 <Link
                   href={item.href}
                   className={cn(
-                    "font-display text-[clamp(1.75rem,9.5vw,3rem)] uppercase text-white transition-colors hover:text-neutral-400 sm:text-6xl",
+                    "font-display text-[clamp(1.75rem,9.5vw,3rem)] uppercase text-white transition-colors hover:text-sandstone sm:text-6xl",
                     pathname === item.href && "text-neutral-500"
                   )}
                 >
@@ -75,10 +75,10 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </nav>
 
           <div className="flex justify-between border-t border-neutral-800 px-8 py-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-500">
-            <a href={site.social.instagram} className="hover:text-white">
+            <a href={site.social.instagram} className="hover:text-sandstone">
               Instagram
             </a>
-            <a href={`mailto:${site.social.email}`} className="hover:text-white">
+            <a href={`mailto:${site.social.email}`} className="hover:text-sandstone">
               {site.social.email}
             </a>
           </div>

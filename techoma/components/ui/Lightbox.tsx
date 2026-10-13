@@ -45,7 +45,7 @@ export function Lightbox({ items, index, onClose, onNavigate }: LightboxProps) {
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-6 top-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="absolute right-6 top-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-sandstone focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             aria-label="Close"
           >
             Close
@@ -57,7 +57,7 @@ export function Lightbox({ items, index, onClose, onNavigate }: LightboxProps) {
               e.stopPropagation();
               onNavigate((index! - 1 + items.length) % items.length);
             }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 px-4 py-2 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="absolute left-4 top-1/2 -translate-y-1/2 px-4 py-2 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-sandstone focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             aria-label="Previous"
           >
             Prev
@@ -68,7 +68,7 @@ export function Lightbox({ items, index, onClose, onNavigate }: LightboxProps) {
               e.stopPropagation();
               onNavigate((index! + 1) % items.length);
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 px-4 py-2 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            className="absolute right-4 top-1/2 -translate-y-1/2 px-4 py-2 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-sandstone focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             aria-label="Next"
           >
             Next
