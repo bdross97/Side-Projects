@@ -80,7 +80,7 @@ export const faq: FaqCategory[] = [
       },
       {
         question: "How do DJs get to play The TECHOMA?",
-        answer: "Apply through the [guest DJ form](/book?type=Guest%20DJ).",
+        answer: "Apply through the [Play The TECHOMA](/play) page.",
       },
       {
         question: "Can I use a microphone?",

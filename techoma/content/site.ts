@@ -31,12 +31,22 @@ export const site = {
   },
 
   // While false, /book shows the pending message below instead of the
-  // general booking form. Guest DJ applications (/book?type=Guest%20DJ)
-  // stay open regardless. Flip to true to bring booking back.
+  // general booking form. Guest DJ applications live on their own page
+  // (/play) and stay open regardless. Flip to true to bring booking back.
   bookingOpen: false,
   bookingPendingMessage: "Booking available soon.",
   bookingPendingSubtitle:
     "The TECHOMA is lining up the next season. Reach out directly in the meantime.",
+
+  // Shown after a successful DJ application submission on /play.
+  djApplicationSuccess: {
+    title: "Application received.",
+    subtitle: "The TECHOMA crew will review your mix.",
+  },
+
+  // Intro line on /play, above the DJ application form.
+  playIntro:
+    "Guest sets are open. Send your socials, a sample mix, and the genres you play — the crew reviews every submission.",
 
   description: [
     "The TECHOMA is a mobile sound rig built on a 2019 Toyota Tacoma 4x4 with a Dometic Pro Bed Rack Kit. A Slimline II rack carries the tops, the decks sit on top of the rack, and an 18-inch sub rides on the ground. The DJ works from the open tailgate, facing the crowd. It sets up in minutes and packs down just as fast.",
@@ -54,8 +64,8 @@ export const site = {
     { label: "Team", href: "/team" },
     { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },
-    // "Book" is hidden from nav while bookingOpen is false. DJ applications
-    // still work via the direct /book?type=Guest%20DJ link. Restore
+    { label: "Play The TECHOMA", href: "/play" },
+    // "Book" is hidden from nav while bookingOpen is false. Restore
     // { label: "Book", href: "/book" } here when booking reopens.
   ],
 
@@ -102,20 +112,19 @@ export const site = {
     { label: "Tops", value: "2x Thump12A, 12\" powered speakers" },
     { label: "Sub", value: "1x Sound Town METIS, 18\" powered subwoofer" },
     { label: "Decks", value: "On top of the Slimline II rack" },
-    { label: "Power", value: "Onboard battery system, SPEC_VALUE_HERE" },
-    { label: "Setup Time", value: "SPEC_VALUE_HERE" },
+    { label: "Power", value: "Shore Power or Onboard Battery Power" },
+    { label: "Setup Time", value: "20 minutes" },
     {
       label: "Footprint",
       value: "~21 ft deployed (5-ft bed Tacoma + tailgate down + 18\" sub at the grille)",
     },
-    { label: "Width", value: "75.2 in with mirrors (2019 Tacoma Double Cab)" },
+    { label: "Width", value: "~6.3 ft with mirrors (2019 Tacoma Double Cab)" },
   ],
 
   eventTypes: [
     "Remote Outdoor",
     "Urban Pop-Up",
     "Private Event",
-    "Guest DJ",
     "Other",
   ] as const,
 

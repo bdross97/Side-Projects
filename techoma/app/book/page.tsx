@@ -4,7 +4,7 @@ import { BookPageContent } from "@/components/forms/BookPageContent";
 
 export const metadata: Metadata = {
   title: "Book",
-  description: "Booking is pending. Apply to play a guest set with The TECHOMA.",
+  description: "Booking is pending. DJs can apply to play on the Play The TECHOMA page.",
 };
 
 export default function BookPage() {

@@ -18,8 +18,7 @@ export default function TheRigPage() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <MediaSlot src="/images/rig-side-profile.jpg" alt="The TECHOMA, side profile" label="IMAGE 01 · 3:2" aspect="3/2" className="md:col-span-2" />
-        <MediaSlot src="/images/rig-color-washed.jpg" alt="The TECHOMA, color-washed view" label="IMAGE 02 · 3:2" aspect="3/2" />
-        <MediaSlot alt="The TECHOMA, rig detail" label="IMAGE 03 · 3:2" aspect="3/2" />
+        <MediaSlot src="/images/rig-color-washed.jpg" alt="The TECHOMA, color-washed view" label="IMAGE 02 · 3:2" aspect="3/2" className="md:col-span-2" />
       </div>
 
       <div className="mt-16 flex max-w-2xl flex-col gap-6">
