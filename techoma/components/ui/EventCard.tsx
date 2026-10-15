@@ -1,4 +1,5 @@
 import type { Event } from "@/content/events";
+import { InstagramIcon } from "./InstagramIcon";
 import { MediaSlot } from "./MediaSlot";
 
 function formatDate(iso: string) {
@@ -22,31 +23,79 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-display text-xl uppercase text-white md:text-2xl">{event.title}</h3>
-        <p className="font-sans text-sm text-neutral-400">{event.location}</p>
+        <h3 className="font-display text-xl uppercase text-white md:text-2xl">
+          {event.instagramUrl ? (
+            <a
+              href={event.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-sandstone"
+            >
+              {event.title}
+            </a>
+          ) : (
+            event.title
+          )}
+        </h3>
+        <p className="font-sans text-sm text-neutral-400">
+          {event.location}
+          {event.time && ` · ${event.time}`}
+        </p>
         {event.lineup.length > 0 && (
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">
             {event.lineup.join(" · ")}
           </p>
         )}
-        {event.ticketUrl && !past && (
-          <a
-            href={event.ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-1 inline-block font-sans text-xs uppercase tracking-[0.3em] text-white underline underline-offset-4 hover:text-sandstone"
-          >
-            Tickets
-          </a>
+        {(event.ticketUrl || event.instagramUrl) && (
+          <div className="mt-1 flex items-center gap-5">
+            {event.ticketUrl && !past && (
+              <a
+                href={event.ticketUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block font-sans text-xs uppercase tracking-[0.3em] text-white underline underline-offset-4 hover:text-sandstone"
+              >
+                Tickets
+              </a>
+            )}
+            {event.instagramUrl && (
+              <a
+                href={event.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${event.title} on Instagram`}
+                className="text-neutral-400 transition-colors hover:text-sandstone"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+            )}
+          </div>
         )}
       </div>
 
-      <MediaSlot
-        src={event.flyerSrc}
-        alt={`${event.title} flyer`}
-        label="FLYER · 4:5"
-        aspect="4/5"
-      />
+      {event.instagramUrl ? (
+        <a
+          href={event.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${event.title} on Instagram`}
+          className="block transition-opacity hover:opacity-80"
+        >
+          <MediaSlot
+            src={event.flyerSrc}
+            alt={`${event.title} flyer`}
+            label="FLYER · 4:5"
+            aspect="4/5"
+          />
+        </a>
+      ) : (
+        <MediaSlot
+          src={event.flyerSrc}
+          alt={`${event.title} flyer`}
+          label="FLYER · 4:5"
+          aspect="4/5"
+        />
+      )}
     </article>
   );
 }
