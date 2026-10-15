@@ -18,11 +18,12 @@ export type Event = {
 export const events: Event[] = [
   {
     id: "001",
-    date: "2026-10-31",
+    date: "2026-10-30",
     title: "The TECHOMA at Drift Lounge Alleyway",
     location: "Drift Lounge Alleyway, Salt Lake City",
     time: "8:00 PM – 1:00 AM",
-    lineup: ["DJ Kush", "DJ Spindoc", "Yinzey", "Meridian", "Ell"],
+    lineup: ["DJ Kush", "Yinzey", "DJ Spindoc", "Meridian", "Ell"],
     instagramUrl: "https://www.instagram.com/p/DeezCTEm5B1/",
+    flyerSrc: "/images/event-drift-lounge-flyer.jpg",
   },
 ];
