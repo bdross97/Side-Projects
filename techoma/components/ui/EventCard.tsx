@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import type { Event } from "@/content/events";
+import { site } from "@/content/site";
 import { InstagramIcon } from "./InstagramIcon";
 import { MediaSlot } from "./MediaSlot";
 
@@ -12,6 +16,17 @@ function formatDate(iso: string) {
 }
 
 export function EventCard({ event, past = false }: { event: Event; past?: boolean }) {
+  const [flyerOpen, setFlyerOpen] = useState(false);
+
+  useEffect(() => {
+    if (!flyerOpen) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setFlyerOpen(false);
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [flyerOpen]);
+
   return (
     <article
       className={`grid grid-cols-1 gap-6 border-t border-neutral-800 py-8 sm:grid-cols-[120px_1fr_140px] ${
@@ -24,18 +39,14 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
 
       <div className="flex flex-col gap-2">
         <h3 className="font-display text-xl uppercase text-white md:text-2xl">
-          {event.instagramUrl ? (
-            <a
-              href={event.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-sandstone"
-            >
-              {event.title}
-            </a>
-          ) : (
-            event.title
-          )}
+          <a
+            href={site.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-sandstone"
+          >
+            {event.title}
+          </a>
         </h3>
         <p className="font-sans text-sm text-neutral-400">
           {event.location}
@@ -73,13 +84,12 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
         )}
       </div>
 
-      {event.instagramUrl ? (
-        <a
-          href={event.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${event.title} on Instagram`}
-          className="block transition-opacity hover:opacity-80"
+      {event.flyerSrc ? (
+        <button
+          type="button"
+          onClick={() => setFlyerOpen(true)}
+          aria-label={`Expand ${event.title} flyer`}
+          className="block w-full text-left transition-opacity hover:opacity-80"
         >
           <MediaSlot
             src={event.flyerSrc}
@@ -87,7 +97,7 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
             label="FLYER · 4:5"
             aspect="4/5"
           />
-        </a>
+        </button>
       ) : (
         <MediaSlot
           src={event.flyerSrc}
@@ -95,6 +105,32 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
           label="FLYER · 4:5"
           aspect="4/5"
         />
+      )}
+
+      {flyerOpen && event.flyerSrc && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${event.title} flyer`}
+          onClick={() => setFlyerOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setFlyerOpen(false)}
+            className="absolute right-6 top-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-400 hover:text-sandstone focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            aria-label="Close"
+          >
+            Close
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={event.flyerSrc}
+            alt={`${event.title} flyer`}
+            className="max-h-[85vh] max-w-full object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
       )}
     </article>
   );
