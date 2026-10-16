@@ -66,7 +66,7 @@ export function EventCard({ event, past = false }: { event: Event; past?: boolea
                 rel="noopener noreferrer"
                 className="inline-block font-sans text-xs uppercase tracking-[0.3em] text-white underline underline-offset-4 hover:text-sandstone"
               >
-                Tickets
+                RSVP
               </a>
             )}
             {event.instagramUrl && (
