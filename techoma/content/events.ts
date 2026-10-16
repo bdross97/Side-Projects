@@ -24,6 +24,6 @@ export const events: Event[] = [
     time: "8:00 PM – 1:00 AM",
     lineup: ["Kush", "Yinzey", "Spindoc", "Meridian", "Ell"],
     instagramUrl: "https://www.instagram.com/p/DeezCTEm5B1/",
-    flyerSrc: "/images/event-drift-lounge-flyer.jpg",
+    flyerSrc: "/images/event-drift-lounge-flyer-4ba66d9f.jpg",
   },
 ];
