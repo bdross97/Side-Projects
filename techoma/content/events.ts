@@ -22,9 +22,9 @@ export const events: Event[] = [
     title: "The TECHOMA at Drift Lounge Alleyway",
     location: "Drift Lounge Alleyway, Salt Lake City",
     time: "8:00 PM – 1:00 AM",
-    lineup: ["Kush", "Yinzey", "Spindoc", "Meridian", "Ell"],
+    lineup: ["Yinzey", "Kush", "Spindoc", "Meridian", "Ell"],
     ticketUrl: "https://partiful.com/e/q1UjB1MWJb5VwIIjx6YK?c=JeClR0W7",
     instagramUrl: "https://www.instagram.com/p/DeezCTEm5B1/",
-    flyerSrc: "/images/event-drift-lounge-flyer-4ba66d9f.jpg",
+    flyerSrc: "/images/event-drift-lounge-flyer-990a6486.jpg",
   },
 ];
