@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "name": "bloom",
+  "pack": "meridian",
+  "bpm": 124.0,
+  "bars": 8,
+  "preview_format": "1080p",
+  "layers": [
+    {
+      "id": "ed528692",
+      "type": "generator",
+      "name": "Bloom",
+      "visible": true,
+      "params": {
+        "shader": "bloom",
+        "transparent": false,
+        "shader_params": {
+          "bloom": {
+            "petals": 6,
+            "layers": 4,
+            "size": 0.85,
+            "spin": 1,
+            "breathe": 0.35,
+            "softness": 0.04,
+            "color_a": "#0d1f14",
+            "color_b": "#b5476b",
+            "color_c": "#ffe4b8"
+          }
+        }
+      },
+      "layer": {
+        "opacity": 1.0
+      },
+      "effects": {
+        "color": {
+          "exposure": 0.0,
+          "contrast": 1.0,
+          "saturation": 1.0,
+          "temperature": 0.0,
+          "tint": 0.0,
+          "hue": 0.0,
+          "enabled": false
+        },
+        "invert": {
+          "amount": 1.0,
+          "enabled": false
+        },
+        "blur": {
+          "radius": 1.0,
+          "enabled": false
+        },
+        "glow": {
+          "threshold": 0.6,
+          "radius": 4.0,
+          "intensity": 1.0,
+          "tint": "#ffffff",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "5d316244",
+      "type": "overlay",
+      "name": "meridian logo",
+      "visible": true,
+      "params": {
+        "mode": "image",
+        "source": "/Users/Brayd/Desktop/Meridian Assets/asset pack/meridian_white_transparent.svg",
+        "text": "meridian",
+        "font": "Paladins",
+        "color": "#ffffff",
+        "size": 0.6,
+        "x": 0.0,
+        "y": -0.55,
+        "rotation": 0.0,
+        "animation": "breathe",
+        "anim_amount": 0.4
+      },
+      "layer": {
+        "opacity": 1.0
+      },
+      "effects": {
+        "color": {
+          "exposure": 0.0,
+          "contrast": 1.0,
+          "saturation": 1.0,
+          "temperature": 0.0,
+          "tint": 0.0,
+          "hue": 0.0,
+          "enabled": false
+        },
+        "invert": {
+          "amount": 1.0,
+          "enabled": false
+        },
+        "blur": {
+          "radius": 1.0,
+          "enabled": false
+        },
+        "glow": {
+          "threshold": 0.6,
+          "radius": 4.0,
+          "intensity": 1.0,
+          "tint": "#ffffff",
+          "enabled": false
+        }
+      }
+    }
+  ],
+  "global_effects": {
+    "color": {
+      "exposure": 0.0,
+      "contrast": 1.0,
+      "saturation": 1.0,
+      "temperature": 0.0,
+      "tint": 0.0,
+      "hue": 0.0,
+      "enabled": false
+    },
+    "invert": {
+      "amount": 1.0,
+      "enabled": false
+    },
+    "blur": {
+      "radius": 1.0,
+      "enabled": false
+    },
+    "glow": {
+      "threshold": 0.55,
+      "radius": 5,
+      "intensity": 0.6,
+      "tint": "#ffe9d2",
+      "enabled": true
+    }
+  },
+  "export": {
+    "formats": [
+      "1080p",
+      "reels"
+    ],
+    "folder": "/Users/Brayd/Side-Projects/meridian_visuals/exports"
+  }
+}

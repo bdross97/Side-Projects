@@ -1,0 +1,12 @@
+#!/bin/zsh
+# Start the visuals app. First run sets up its Python environment (~2 min).
+set -e
+cd "${0:A:h}"
+if [[ ! -x .venv/bin/python ]]; then
+  echo "First run: setting up Python environment…"
+  PY=$(command -v python3.11 || command -v python3.12 || command -v python3)
+  "$PY" -m venv .venv
+  .venv/bin/pip install -q --upgrade pip
+  .venv/bin/pip install -q -r requirements.txt
+fi
+exec .venv/bin/python -m visuals "$@"

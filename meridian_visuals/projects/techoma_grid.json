@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "name": "grid",
+  "pack": "techoma",
+  "bpm": 130.0,
+  "bars": 8,
+  "preview_format": "1080p",
+  "layers": [
+    {
+      "id": "b9a5d5b9",
+      "type": "generator",
+      "name": "Laser grid",
+      "visible": true,
+      "params": {
+        "shader": "grid",
+        "transparent": false,
+        "shader_params": {
+          "grid": {
+            "travel": 8,
+            "cell": 0.5,
+            "horizon": -0.35,
+            "ceiling": 1.0,
+            "width": 0.02,
+            "fog": 0.25,
+            "flash": 0.4,
+            "color": "#6e6e6e"
+          }
+        }
+      },
+      "layer": {
+        "opacity": 1.0
+      },
+      "effects": {
+        "color": {
+          "exposure": 0.0,
+          "contrast": 1.0,
+          "saturation": 1.0,
+          "temperature": 0.0,
+          "tint": 0.0,
+          "hue": 0.0,
+          "enabled": false
+        },
+        "invert": {
+          "amount": 1.0,
+          "enabled": false
+        },
+        "blur": {
+          "radius": 1.0,
+          "enabled": false
+        },
+        "glow": {
+          "threshold": 0.6,
+          "radius": 4.0,
+          "intensity": 1.0,
+          "tint": "#ffffff",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "9445fbb3",
+      "type": "generator",
+      "name": "Tunnel",
+      "visible": true,
+      "params": {
+        "shader": "tunnel",
+        "transparent": true,
+        "shader_params": {
+          "tunnel": {
+            "travel": 8,
+            "density": 0.6,
+            "square": 1.0,
+            "spokes": 8,
+            "twist": 0,
+            "width": 0.06,
+            "flash": 0.5,
+            "color": "#ffffff"
+          }
+        }
+      },
+      "layer": {
+        "opacity": 0.3
+      },
+      "effects": {
+        "color": {
+          "exposure": 0.0,
+          "contrast": 1.0,
+          "saturation": 1.0,
+          "temperature": 0.0,
+          "tint": 0.0,
+          "hue": 0.0,
+          "enabled": false
+        },
+        "invert": {
+          "amount": 1.0,
+          "enabled": false
+        },
+        "blur": {
+          "radius": 1.0,
+          "enabled": false
+        },
+        "glow": {
+          "threshold": 0.6,
+          "radius": 4.0,
+          "intensity": 1.0,
+          "tint": "#ffffff",
+          "enabled": false
+        }
+      }
+    },
+    {
+      "id": "b4c6bbf9",
+      "type": "overlay",
+      "name": "TECHOMA wordmark",
+      "visible": true,
+      "params": {
+        "mode": "text",
+        "source": "",
+        "text": "THE TECHOMA",
+        "font": "Paladins",
+        "color": "#ffffff",
+        "size": 0.9,
+        "x": 0.0,
+        "y": 0.1,
+        "rotation": 0.0,
+        "animation": "pulse",
+        "anim_amount": 0.35
+      },
+      "layer": {
+        "opacity": 1.0
+      },
+      "effects": {
+        "color": {
+          "exposure": 0.0,
+          "contrast": 1.0,
+          "saturation": 1.0,
+          "temperature": 0.0,
+          "tint": 0.0,
+          "hue": 0.0,
+          "enabled": false
+        },
+        "invert": {
+          "amount": 1.0,
+          "enabled": false
+        },
+        "blur": {
+          "radius": 1.0,
+          "enabled": false
+        },
+        "glow": {
+          "threshold": 0.6,
+          "radius": 4.0,
+          "intensity": 1.0,
+          "tint": "#ffffff",
+          "enabled": false
+        }
+      }
+    }
+  ],
+  "global_effects": {
+    "color": {
+      "exposure": 0.0,
+      "contrast": 1.0,
+      "saturation": 1.0,
+      "temperature": 0.0,
+      "tint": 0.0,
+      "hue": 0.0,
+      "enabled": false
+    },
+    "invert": {
+      "amount": 1.0,
+      "enabled": false
+    },
+    "blur": {
+      "radius": 1.0,
+      "enabled": false
+    },
+    "glow": {
+      "threshold": 0.85,
+      "radius": 2.0,
+      "intensity": 1.0,
+      "tint": "#ffffff",
+      "enabled": true
+    }
+  },
+  "export": {
+    "formats": [
+      "1080p",
+      "reels"
+    ],
+    "folder": "/Users/Brayd/Side-Projects/meridian_visuals/exports"
+  }
+}
