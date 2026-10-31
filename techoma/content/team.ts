@@ -33,4 +33,11 @@ export const team: TeamMember[] = [
     bio: "BIO_HERE",
     instagram: "BRANDON_INSTAGRAM_URL_HERE",
   },
+  {
+    id: "dylan-bleggi",
+    name: "Dylan Bleggi",
+    role: "Multi-Media and Video",
+    bio: "BIO_HERE",
+    instagram: "DYLAN_INSTAGRAM_URL_HERE",
+  },
 ];
