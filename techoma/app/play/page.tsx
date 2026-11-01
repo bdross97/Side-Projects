@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function PlayPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-24">
-      <DecodeText eyebrow="DJ" as="h1" className="mb-6 text-4xl md:text-5xl">
+      <DecodeText eyebrow="DJ" as="h1" className="mb-6 text-4xl md:text-5xl" trademark>
         Play The TECHOMA
       </DecodeText>
       <p className="mb-12 max-w-xl font-sans text-sm leading-relaxed text-neutral-400">

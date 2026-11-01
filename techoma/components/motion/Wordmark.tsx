@@ -122,6 +122,13 @@ export function Wordmark({
           The
         </span>
       )}
+      {/* whitespace-nowrap replaces a guarantee this element used to get for
+          free from being inline-flex (flex's default flex-wrap is "nowrap",
+          so the letters could never line-wrap, only overflow). It had to
+          become inline-block so the ™ sup inside it isn't blockified by
+          being a flex item (that broke its vertical-align), which on its
+          own would have let "TECHOMA" line-wrap for the first time — this
+          restores the original no-wrap behavior explicitly. */}
       <motion.span
         aria-hidden
         ref={containerRef}
@@ -130,7 +137,10 @@ export function Wordmark({
         initial={skip ? false : { letterSpacing: "0.5em", opacity: 0 }}
         animate={{ letterSpacing: decodeDone ? "0.01em" : "0.3em", opacity: 1 }}
         transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        className={cn(paladinsLaser.className, "relative inline-flex uppercase leading-none")}
+        className={cn(
+          paladinsLaser.className,
+          "relative inline-block whitespace-nowrap uppercase leading-none"
+        )}
       >
         {letters.map((letter, index) => (
           <span
@@ -155,6 +165,14 @@ export function Wordmark({
                 {letter.char}
               </span>
             )}
+
+            {/* Nested in the last letter's own (position:relative) box, and
+                absolutely positioned via .tm-float — not just to sit next to
+                the right letter, but so it adds zero width to the flow. An
+                in-flow ™, even at ~13px, was occasionally just enough extra
+                width to push "TECHOMA" onto two lines on narrow viewports,
+                which the design brief explicitly ruled out. */}
+            {index === letters.length - 1 && <sup className="tm tm-float">™</sup>}
           </span>
         ))}
       </motion.span>

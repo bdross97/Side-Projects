@@ -12,13 +12,23 @@ type DecodeTextProps = {
   className?: string;
   /** micro-label index/eyebrow shown above, e.g. "002" */
   eyebrow?: string;
+  /** Appends a ™ right after the text. Kept out of the scrambled `children`
+   * string itself, since the display font it's set in doesn't have a ™
+   * glyph — see the `.tm` class in globals.css. */
+  trademark?: boolean;
 };
 
 /**
  * A lighter decode effect for section headers: scrambles in once when it
  * first scrolls into view, then stays resolved.
  */
-export function DecodeText({ children, as = "h2", className, eyebrow }: DecodeTextProps) {
+export function DecodeText({
+  children,
+  as = "h2",
+  className,
+  eyebrow,
+  trademark = false,
+}: DecodeTextProps) {
   const reducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
@@ -53,9 +63,22 @@ export function DecodeText({ children, as = "h2", className, eyebrow }: DecodeTe
         transition={{ duration: 0.3 }}
       >
         <Tag className="font-display uppercase leading-none">
-          {letters.map((letter, index) => (
-            <span key={index}>{letter.char}</span>
-          ))}
+          {letters.map((letter, index) => {
+            // The ™ is absolutely positioned (.tm-float, relative to this
+            // span) rather than sitting in flow, so it adds zero width to
+            // the line — an in-flow ™ was occasionally just enough extra
+            // width to push a heading that nearly fills its line onto an
+            // extra line, which the design brief explicitly ruled out.
+            if (trademark && index === letters.length - 1) {
+              return (
+                <span key={index} className="relative">
+                  {letter.char}
+                  <sup className="tm tm-float">™</sup>
+                </span>
+              );
+            }
+            return <span key={index}>{letter.char}</span>;
+          })}
         </Tag>
       </motion.div>
     </div>

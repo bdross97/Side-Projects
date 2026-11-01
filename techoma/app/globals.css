@@ -59,3 +59,42 @@ body {
     animation: none;
   }
 }
+
+/* Trademark superscript. Forced onto --font-sans (JetBrains Mono) rather
+   than inheriting the display/Paladins faces, which are custom cuts built
+   just for this brand's lettering and don't carry a ™ glyph — without this
+   override it falls back to an empty box or the browser's generic fallback
+   font. (Note: vertical-align only works on inline-level boxes — if this
+   is ever nested inside a flex container, flex items get their display
+   "blockified" per spec and vertical-align silently stops applying, so
+   keep this out of flex rows; see Wordmark.tsx's motion.span, which was
+   switched from inline-flex to inline-block for exactly this reason.)
+   In-flow positioning (baseline + a small `top` lift) — used for the one
+   plain-sentence instance (the footer's trademark notice line), where
+   wrapping like any other word in the sentence is normal and expected. */
+.tm {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.45em;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: none;
+  line-height: 1;
+  position: relative;
+  top: -0.85em;
+  color: currentColor;
+}
+
+/* Modifier for the Wordmark/DecodeText heading cases, where the ™ must
+   never change the heading's own wrap point (even an in-flow `.tm`'s tiny
+   width was sometimes just enough to push a tight mobile wordmark onto an
+   extra line). position:absolute removes it from flow entirely — its
+   containing block is the last letter's own span, which Wordmark.tsx and
+   DecodeText.tsx both set to `position: relative` for exactly this. */
+.tm-float {
+  position: absolute;
+  left: 100%;
+  bottom: 35%;
+  top: auto;
+  margin-left: 0.18em;
+}

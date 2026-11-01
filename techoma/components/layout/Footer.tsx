@@ -25,9 +25,14 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-5xl items-center justify-between font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-700">
-        <span>&copy; {new Date().getFullYear()} The TECHOMA</span>
-        <span>STATUS: {site.status}</span>
+      <div className="mx-auto mt-6 flex max-w-5xl flex-col gap-2 font-sans text-[10px] uppercase tracking-[0.3em] text-neutral-700">
+        <div className="flex items-center justify-between">
+          <span>&copy; {new Date().getFullYear()} The TECHOMA. All rights reserved.</span>
+          <span>STATUS: {site.status}</span>
+        </div>
+        <span>
+          THE TECHOMA<sup className="tm">™</sup> and its logo are trademarks of The TECHOMA.
+        </span>
       </div>
     </footer>
   );

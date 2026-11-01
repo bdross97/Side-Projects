@@ -18,7 +18,7 @@ export function BookPageContent() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-24">
-      <DecodeText eyebrow="CONTACT" as="h1" className="mb-12 text-4xl md:text-5xl">
+      <DecodeText eyebrow="CONTACT" as="h1" className="mb-12 text-4xl md:text-5xl" trademark>
         Book The TECHOMA
       </DecodeText>
 
