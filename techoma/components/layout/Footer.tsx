@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-neutral-900 px-6 py-10">
       <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
         <span style={{ color: site.truckColor }}>
-          <Wordmark size="footer" skipDecode />
+          <Wordmark size="footer" skipDecode trademark />
         </span>
 
         <div

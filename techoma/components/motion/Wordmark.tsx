@@ -18,6 +18,9 @@ type WordmarkProps = {
   onDecodeComplete?: () => void;
   className?: string;
   showThe?: boolean;
+  /** Appends a ™ after the last letter. Off by default — kept to just the
+   * footer mark, since it read as visual clutter at hero/header scale. */
+  trademark?: boolean;
 };
 
 const SIZE_CLASSES: Record<WordmarkSize, string> = {
@@ -32,6 +35,7 @@ export function Wordmark({
   onDecodeComplete,
   className,
   showThe = false,
+  trademark = false,
 }: WordmarkProps) {
   const reducedMotion = useReducedMotion();
   const skip = skipDecode || reducedMotion;
@@ -172,7 +176,9 @@ export function Wordmark({
                 in-flow ™, even at ~13px, was occasionally just enough extra
                 width to push "TECHOMA" onto two lines on narrow viewports,
                 which the design brief explicitly ruled out. */}
-            {index === letters.length - 1 && <sup className="tm tm-float">™</sup>}
+            {trademark && index === letters.length - 1 && (
+              <sup className="tm tm-float">™</sup>
+            )}
           </span>
         ))}
       </motion.span>
