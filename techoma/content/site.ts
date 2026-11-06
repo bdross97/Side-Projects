@@ -74,6 +74,9 @@ export const site = {
     email: "info@thetechoma.com",
   },
 
+  // Playlist embedded on the homepage, near the waveform divider.
+  spotifyPlaylistUrl: "https://open.spotify.com/playlist/1dszTLIkcl5sTuLi2T4gnS",
+
   marquee:
     "MELODIC HOUSE · MELODIC TECHNO · TECH HOUSE · HOUSE · TECHNO · PROGRESSIVE · DEEP HOUSE · AFRO HOUSE · ORGANIC HOUSE · PEAK TIME TECHNO · BASS HOUSE · MINIMAL ·",
 

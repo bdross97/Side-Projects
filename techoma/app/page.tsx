@@ -9,6 +9,7 @@ import { MicroLabel } from "@/components/ui/MicroLabel";
 import { UseCaseBlock } from "@/components/ui/UseCaseBlock";
 import { EventCard } from "@/components/ui/EventCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { SpotifyPlayer } from "@/components/ui/SpotifyPlayer";
 import { site } from "@/content/site";
 import { events } from "@/content/events";
 
@@ -99,6 +100,8 @@ export default function Home() {
       <div className="mx-auto max-w-5xl px-6">
         <Waveform />
       </div>
+
+      <SpotifyPlayer playlistUrl={site.spotifyPlaylistUrl} />
 
       <section className="mx-auto max-w-2xl px-6 py-24 text-center">
         <MicroLabel className="mb-4 block">Follow</MicroLabel>
