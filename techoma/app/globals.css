@@ -98,3 +98,11 @@ body {
   top: auto;
   margin-left: 0.18em;
 }
+
+/* Same bottom fade-to-black used on the DJ showcase videos' photo panels,
+   reused on the roster cards so the hover-revealed name sits over a soft
+   gradient instead of a hard photo edge. */
+.roster-photo-mask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 67%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 67%, transparent 100%);
+}

@@ -58,7 +58,7 @@ export const site = {
   nav: [
     { label: "Home", href: "/" },
     { label: "The Rig", href: "/the-rig" },
-    { label: "Territory", href: "/reach" },
+    { label: "Roster", href: "/roster" },
     { label: "Pricing", href: "/pricing" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
