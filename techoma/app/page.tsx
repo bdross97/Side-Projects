@@ -30,16 +30,24 @@ export default function Home() {
           <MicroLabel>{site.heroSignalLabel}</MicroLabel>
         </div>
 
-        <Wordmark size="hero" showThe className="text-white" />
+        {/* Needs its own stacking context (relative z-10): HeroVideo's overlay
+            and Scanlines are position:absolute, which paints them above any
+            plain, non-positioned sibling regardless of DOM order. Without
+            this, only the wordmark's animated letters (which get a
+            transform from Framer Motion, incidentally creating their own
+            stacking context) show through — the tagline and CTA don't. */}
+        <div className="relative z-10 flex flex-col items-center">
+          <Wordmark size="hero" showThe className="text-white" />
 
-        <p className="mt-8 font-sans text-sm uppercase tracking-[0.3em] text-neutral-400 md:text-base">
-          {site.tagline}
-        </p>
+          <p className="mt-8 font-sans text-sm uppercase tracking-[0.3em] text-neutral-400 md:text-base">
+            {site.tagline}
+          </p>
 
-        <div className="mt-10">
-          <CTALink href="/the-rig" variant="solid">
-            See The Rig
-          </CTALink>
+          <div className="mt-10">
+            <CTALink href="/the-rig" variant="solid">
+              See The Rig
+            </CTALink>
+          </div>
         </div>
       </section>
 
