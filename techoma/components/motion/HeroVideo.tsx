@@ -1,6 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "./useReducedMotion";
+import { LoopingVideo } from "./LoopingVideo";
 
 type HeroVideoProps = {
   src: string;
@@ -21,15 +22,7 @@ export function HeroVideo({ src, poster }: HeroVideoProps) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={poster} alt="" className="h-full w-full object-cover" />
       ) : (
-        <video
-          src={src}
-          poster={poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="h-full w-full object-cover"
-        />
+        <LoopingVideo src={src} poster={poster} />
       )}
       <div className="absolute inset-0 bg-black/55" />
     </div>

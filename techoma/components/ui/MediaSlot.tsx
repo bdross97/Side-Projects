@@ -1,4 +1,5 @@
 import { ConeMark } from "@/components/motion/ConeMark";
+import { LoopingVideo } from "@/components/motion/LoopingVideo";
 import { cn } from "@/lib/utils";
 
 type MediaSlotProps = {
@@ -40,16 +41,7 @@ export function MediaSlot({ src, type, alt, label, aspect = "16/9", className, p
           <span className="font-sans text-[10px] uppercase tracking-[0.3em]">{label}</span>
         </div>
       ) : resolvedType === "video" ? (
-        <video
-          src={src}
-          poster={poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-label={alt}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <LoopingVideo src={src} poster={poster} ariaLabel={alt} />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
