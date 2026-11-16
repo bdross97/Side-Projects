@@ -81,6 +81,7 @@ export function Lightbox({ items, index, onClose, onNavigate }: LightboxProps) {
             <MediaSlot
               src={item.src}
               type={item.type}
+              poster={item.poster}
               alt={item.alt}
               label={`${item.type.toUpperCase()} · ${item.id.toUpperCase()}`}
               aspect={

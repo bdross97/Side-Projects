@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/motion/Wordmark";
+import { HeroVideo } from "@/components/motion/HeroVideo";
 import { Scanlines } from "@/components/motion/Scanlines";
 import { Marquee } from "@/components/motion/Marquee";
 import { Waveform } from "@/components/motion/Waveform";
@@ -22,6 +23,7 @@ export default function Home() {
   return (
     <>
       <section className="relative flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
+        <HeroVideo src="/videos/hero-loop.mp4" poster="/images/hero-loop-poster.jpg" />
         <Scanlines />
 
         <div className="absolute left-6 top-6">

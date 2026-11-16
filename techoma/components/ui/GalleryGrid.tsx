@@ -28,6 +28,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
             <MediaSlot
               src={item.src}
               type={item.type}
+              poster={item.poster}
               alt={item.alt}
               label={`${item.type.toUpperCase()} ${String(index + 1).padStart(2, "0")}`}
               aspect={ASPECT_MAP[item.aspect ?? "square"]}

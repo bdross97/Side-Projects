@@ -10,6 +10,8 @@ type MediaSlotProps = {
   /** CSS aspect-ratio value, e.g. "16/9", "1/1", "4/5" */
   aspect?: string;
   className?: string;
+  /** Still shown while a video loads/buffers, instead of a black flash. */
+  poster?: string;
 };
 
 function inferType(src?: string): "image" | "video" {
@@ -21,7 +23,7 @@ function inferType(src?: string): "image" | "video" {
  * Black box with a thin border and a ConeMark when no media source is set.
  * Once a src is provided, renders the real image or looping muted video.
  */
-export function MediaSlot({ src, type, alt, label, aspect = "16/9", className }: MediaSlotProps) {
+export function MediaSlot({ src, type, alt, label, aspect = "16/9", className, poster }: MediaSlotProps) {
   const resolvedType = type ?? inferType(src);
 
   return (
@@ -40,6 +42,7 @@ export function MediaSlot({ src, type, alt, label, aspect = "16/9", className }:
       ) : resolvedType === "video" ? (
         <video
           src={src}
+          poster={poster}
           autoPlay
           muted
           loop
