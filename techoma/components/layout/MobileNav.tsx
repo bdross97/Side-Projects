@@ -74,9 +74,12 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             ))}
           </nav>
 
-          <div className="flex justify-between border-t border-neutral-800 px-8 py-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-500">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-neutral-800 px-8 py-6 font-sans text-xs uppercase tracking-[0.3em] text-neutral-500">
             <a href={site.social.instagram} className="hover:text-sandstone">
               Instagram
+            </a>
+            <a href={site.social.youtube} className="hover:text-sandstone">
+              YouTube
             </a>
             <a href={`mailto:${site.social.email}`} className="hover:text-sandstone">
               {site.social.email}

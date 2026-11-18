@@ -71,6 +71,7 @@ export const site = {
 
   social: {
     instagram: "https://www.instagram.com/the_techoma/",
+    youtube: "https://www.youtube.com/@THE_TECHOMA",
     email: "info@thetechoma.com",
   },
 

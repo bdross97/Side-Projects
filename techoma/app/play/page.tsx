@@ -30,6 +30,9 @@ export default function PlayPage() {
         <a href={site.social.instagram} className="hover:text-sandstone">
           Instagram
         </a>
+        <a href={site.social.youtube} className="hover:text-sandstone">
+          YouTube
+        </a>
       </div>
     </div>
   );

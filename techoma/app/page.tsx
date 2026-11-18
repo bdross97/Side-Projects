@@ -115,12 +115,20 @@ export default function Home() {
 
       <section className="mx-auto max-w-2xl px-6 py-24 text-center">
         <MicroLabel className="mb-4 block">Follow</MicroLabel>
-        <Link
-          href={site.social.instagram}
-          className="font-display text-3xl uppercase text-white transition-colors hover:text-sandstone md:text-4xl"
-        >
-          Instagram
-        </Link>
+        <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-8">
+          <Link
+            href={site.social.instagram}
+            className="font-display text-3xl uppercase text-white transition-colors hover:text-sandstone md:text-4xl"
+          >
+            Instagram
+          </Link>
+          <Link
+            href={site.social.youtube}
+            className="font-display text-3xl uppercase text-white transition-colors hover:text-sandstone md:text-4xl"
+          >
+            YouTube
+          </Link>
+        </div>
       </section>
     </>
   );

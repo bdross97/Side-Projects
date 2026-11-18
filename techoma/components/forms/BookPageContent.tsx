@@ -62,6 +62,9 @@ export function BookPageContent() {
         <a href={site.social.instagram} className="hover:text-sandstone">
           Instagram
         </a>
+        <a href={site.social.youtube} className="hover:text-sandstone">
+          YouTube
+        </a>
         <p className="normal-case tracking-normal text-neutral-600">
           Looking to DJ a set instead?{" "}
           <Link href="/play" className="text-white underline underline-offset-4 hover:text-sandstone">

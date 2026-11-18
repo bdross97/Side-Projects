@@ -16,6 +16,9 @@ export function Footer() {
           <a href={site.social.instagram} className="hover:opacity-70">
             Instagram
           </a>
+          <a href={site.social.youtube} className="hover:opacity-70">
+            YouTube
+          </a>
           <a href={`mailto:${site.social.email}`} className="hover:opacity-70">
             {site.social.email}
           </a>
