@@ -1,0 +1,20 @@
+# Rebuilds the site every day so the static HTML matches today's date
+# (shows move to "past" on their own). 14:00 UTC is 7am or 8am in Salt Lake
+# City, after the 06:00 cutoff. Needs a repo secret VERCEL_DEPLOY_HOOK_URL.
+name: daily rebuild (vercel)
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: trigger vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "VERCEL_DEPLOY_HOOK_URL not set, skipping"; exit 0; fi
+          curl -fsS -X POST "$HOOK"

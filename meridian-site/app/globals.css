@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/*
+  brand palette: a pink sky wash, plum text, one accent.
+
+  --sky-top / --sky-bottom
+           the page background, a soft vertical wash. Both are lightened from
+           public/media/photos/photo-sky-pink.jpg: its top band averages
+           #d3c8e3 (lavender) and its bottom band #fab2ba (pink). Lightened so
+           body text keeps 11:1+ contrast.
+  --canvas the flat version of the wash, for panels and overlays.
+  --ink    plum-black text (#2b2230), 11.2:1 on the pinkest part of the wash.
+  --accent deep lily pink (#9c2349), from the lily petals in photo-02 and
+           photo-03. 5.6:1 on the wash, so it works for links and small text.
+
+  The gradient line asset (public/brand/line.png) is exempt from this palette.
+  Never recreate or restyle it in CSS.
+*/
+:root {
+  --sky-top: #ece4f1;
+  --sky-bottom: #f6d5d9;
+  --canvas: #f3dfe6;
+  --ink: #2b2230;
+  --accent: #9c2349;
+}
+
+@theme inline {
+  /* "canvas", not "base": text-base is a font size */
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color-scheme: light;
+  background: var(--sky-bottom);
+}
+
+body {
+  background: linear-gradient(to bottom, var(--sky-top), var(--canvas) 45%, var(--sky-bottom)) fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Wordmark: the inline script in app/layout.tsx sets data-wm="static" on
+   repeat visits (same session) and under prefers-reduced-motion, so the line
+   is drawn before first paint. .wm-live is added once React takes over. */
+html[data-wm="static"] .wm-line:not(.wm-live) {
+  clip-path: none !important;
+}
+
+/* Slow drift on big photos, so they never sit frozen. */
+@keyframes drift {
+  from {
+    transform: scale(1.02) translate(0, 0);
+  }
+  to {
+    transform: scale(1.12) translate(-2%, -1.5%);
+  }
+}
+.drift {
+  animation: drift 36s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* A gentler drift for the hero, so the photo never zooms in much. */
+@keyframes drift-soft {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.02) translate(-0.5%, -0.5%);
+  }
+}
+.drift-soft {
+  animation: drift-soft 40s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Rolling banners: the track holds two copies and slides by one copy. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Nav tabs: a thin line sweeps through the label on hover, like the logo. */
+.line-sweep {
+  position: relative;
+}
+.line-sweep::after {
+  content: "";
+  position: absolute;
+  left: -0.4em;
+  right: -0.4em;
+  top: 55%;
+  height: 1px;
+  background: currentColor;
+  mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s ease-in-out;
+  pointer-events: none;
+}
+.line-sweep:hover::after,
+.line-sweep:focus-visible::after,
+a:hover > .line-sweep::after,
+a:focus-visible > .line-sweep::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift,
+  .drift-soft,
+  .marquee-track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
+  }
+  .line-sweep::after {
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
