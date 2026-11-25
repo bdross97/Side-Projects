@@ -96,8 +96,10 @@ export const site = {
     stripHeading: "through the lens",
     stripNote: "captured by meridian.",
     followHeading: "follow",
-    // Nature loop slot. Renders a placeholder box until src is set.
-    // Set to null to remove the slot entirely.
+    // Nature loop slot. Hidden for now; set showLoop to true once the loop
+    // video exists (fill in src and poster below). Until then it would show
+    // as a placeholder box.
+    showLoop: false,
     loop: {
       kind: "video",
       src: undefined,

@@ -69,7 +69,7 @@ export default function Home() {
         <PhotoStrip />
       </section>
 
-      {home.loop && (
+      {home.showLoop && home.loop && (
         <>
           <MeridianLine />
           <Container className="py-20">

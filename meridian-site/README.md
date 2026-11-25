@@ -32,7 +32,7 @@ Edit a value, save, done. TypeScript will complain if a field is missing or miss
 - **nav**: `site.nav` feeds the header, the mobile menu, and the footer.
 - **socials**: `site.social` feeds the footer, the mobile menu, and the home "follow" section.
 - **influences**: delete `site.bio.influences` entries (or set it to `[]`) to hide that line.
-- **home loop slot**: set `site.home.loop` to `null` to remove it.
+- **home loop slot**: hidden (`site.home.showLoop: false`). When the nature loop video exists, set its `src`/`poster` in `site.home.loop` and flip `showLoop` to `true`.
 - **genre banner**: `site.home.genres`.
 - **bio**: `site.bio.text`, one string per paragraph.
 - **bio collage**: `site.bio.portrait` is the main photo; `site.bio.collage` lists the small flower photos and which corner or edge of the portrait each one overlaps (`top-left`, `top-right`, `left`, `bottom-right`). Size, tilt and drift per spot are in `SPOTS` in `app/bio/page.tsx`.
