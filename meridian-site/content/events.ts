@@ -31,6 +31,15 @@ export const events: EventItem[] = [
     poster: poster("poster-varley-nov-27", "miracle at varley", "2026-11-27", 1200, 1500),
   },
   {
+    id: "sundays-best-2026-11-28",
+    title: "saturday brunch",
+    venue: "sunday's best",
+    city: "salt lake city",
+    date: "2026-11-28",
+    timeLabel: "1pm to 2pm",
+    // no flyer yet
+  },
+  {
     id: "varley-2026-12-19",
     title: "miracle at varley",
     venue: "varley",

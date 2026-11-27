@@ -60,6 +60,7 @@ describe("listings with the real event list", () => {
   it("on 2026-11-28: nov 27 leaves /shows and is first on /past-shows, in full", () => {
     const now = at("2026-11-28T19:00:00Z");
     expect(getUpcoming(events, now).map((e) => e.id)).toEqual([
+      "sundays-best-2026-11-28",
       "apres-2026-12-12",
       "varley-2026-12-19",
       "mother-2027-01-08",
