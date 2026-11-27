@@ -32,12 +32,12 @@ export const events: EventItem[] = [
   },
   {
     id: "sundays-best-2026-12-05",
-    title: "saturday brunch",
+    title: "saturday sermon", // poster reads "sunday school: saturday sermon"
     venue: "sunday's best",
     city: "salt lake city",
     date: "2026-12-05",
     timeLabel: "1pm to 2pm",
-    // no flyer yet
+    poster: poster("poster-saturday-sermon", "saturday sermon", "2026-12-05", 1206, 1496),
   },
   {
     id: "varley-2026-12-19",
